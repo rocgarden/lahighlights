@@ -14,7 +14,7 @@ export default function ItineraryCard({ itinerary }) {
     itinerary;
 
   return (
-    <div className="bg-red-400 backdrop-blur-lg p-4 rounded-lg border border-white/10 w-[300px] shadow-md hover:shadow-2xl hover:-translate-y-1 transition-transform duration-300">
+    <div className="bg-red-400 backdrop-blur-lg p-4 rounded-lg border border-white/10 w-full sm:w-[300px] shadow-md hover:shadow-2xl hover:-translate-y-1 transition-transform duration-300">
       {/* Media */}
       {fileUrl && (
         <div className="w-full h-48 rounded-md overflow-hidden mb-3">
@@ -35,8 +35,10 @@ export default function ItineraryCard({ itinerary }) {
       )}
 
       {/* Title & City */}
-      <h3 className="text-xl font-semibold text-white">{title}</h3>
-      <p className="text-white/70 text-sm">{city}</p>
+      <h3 className="text-lg sm:text-xl font-semibold text-white truncate">
+        {title}
+      </h3>
+      <p className="text-white/70 text-sm truncate">{city}</p>
 
       {/* Tags for Duration & Type */}
       <div className="flex items-center gap-2 mt-2 text-sm flex-wrap">
@@ -56,11 +58,13 @@ export default function ItineraryCard({ itinerary }) {
       {/* <p className="text-white/80 text-sm mt-2 line-clamp-3">{description}</p> */}
       {/*highlights */}
       {highlights?.length > 0 && (
-        <ul className="text-white text-md mt-2 space-y-1">
-          <p className="text-indigo-900 text-md font-semibold mt-2 line-clamp-3">✨ Highlights</p>
+        <ul className="text-white text-sm mt-2 space-y-1">
+          <p className="text-indigo-900 text-md font-semibold mt-2 line-clamp-3">
+            ✨ Highlights
+          </p>
 
           {highlights.slice(0, 3).map((item, idx) => (
-            <li key={idx}>• {item.activity}</li>
+            <li key={idx}>• {item?.activity}</li>
           ))}
           {highlights.length > 3 && <li>• ...</li>}
         </ul>
@@ -69,7 +73,7 @@ export default function ItineraryCard({ itinerary }) {
       {/* View Link */}
       <Link
         href={`/itineraries/${slug}`}
-        className="block mt-4 text-blue-300 hover:underline text-md"
+        className="block mt-4 text-sm sm:text-md bg-blue-600 text-white px-4 py-2 rounded-full text-center hover:bg-blue-700 transition"
       >
         View Full Itinerary →
       </Link>

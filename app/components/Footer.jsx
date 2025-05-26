@@ -1,4 +1,5 @@
 // app/components/Footer.js
+import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="bg-black/80 text-white px-6 py-10 ">
@@ -16,34 +17,34 @@ export default function Footer() {
           <h3 className="text-lg font-medium mb-2">Navigation</h3>
           <ul className="text-sm text-white/70 space-y-1">
             <li>
-              <a href="/" className="hover:underline">
+              <Link href="/" className="hover:underline">
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/category/places" className="hover:underline">
-                Places
-              </a>
+              <Link href="/itineraries" className="hover:underline">
+                Itineraries
+              </Link>
             </li>
             <li>
-              <a href="/category/cafes" className="hover:underline">
+              <Link href="/category/cafes" className="hover:underline">
                 Cafes
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/Featured" className="hover:underline">
+              <Link href="/Featured" className="hover:underline">
                 Featured
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/terms" className="hover:underline">
+              <Link href="/terms" className="hover:underline">
                 Terms
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/signin" className="hover:underline">
+              <Link href="/signin" className="hover:underline">
                 Submit Post
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
@@ -81,9 +82,9 @@ export default function Footer() {
         general informational purposes only. Always check ahead for
         availability, allergens, accessibility, and other personal needs. Use at
         your own risk. See{" "}
-        <a href="/terms" className="hover:underline">
+        <Link href="/terms" className="hover:underline">
           Terms
-        </a>
+        </Link>
       </div>
     </footer>
   );

@@ -1,11 +1,11 @@
-'use client'
 import PostCard from "./PostCard";
 import Link from "next/link";
 import { getCategoryEmoji } from "@/lib/utils/categoryIcons";
+import { getCategoryTagline } from "@/lib/utils/categoryDescriptions";
 import FadeInSection from "./FadeInSection";
-import { useState, useEffect } from "react";
 import ItinerarySection from "../itineraries/ItinerarySection";
 import Featured from "./Featured";
+import CategoryPillsMobile from "./CategoryPillsMobile";
 
 // Group posts by category
 function groupByCategory(items) {
@@ -16,35 +16,50 @@ function groupByCategory(items) {
     return acc;
   }, {});
 }
-export default function HomeFeed() {
-const [groupedPosts, setGroupedPosts] = useState({});
-const [topCategories, setTopCategories] = useState([]);
+export default function HomeFeed({topCategories}) {
+//const [groupedPosts, setGroupedPosts] = useState({});
+//const [topCategories, setTopCategories] = useState([]);
 
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const res = await fetch("/api/items");
-      const items = await res.json();
+  // useEffect(() => {
+  //   // Filter by section
+  //   const feedItems = items.filter((item) => item.section === "feed");
 
-      // Filter by section
-      const feedItems = items.filter((item) => item.section === "feed");
+  //   // Group by category
+  //   const grouped = groupByCategory(feedItems);
 
-      // Group by category
-      const grouped = groupByCategory(feedItems);
+  //   // Sort categories by number of posts, take top 5
+  //   const sortedTop5 = Object.entries(grouped)
+  //     .sort((a, b) => b[1].length - a[1].length)
+  //     .slice(0, 5);
 
-      // Sort categories by number of posts, take top 5
-      const sortedTop5 = Object.entries(grouped)
-        .sort((a, b) => b[1].length - a[1].length)
-        .slice(0, 5);
+  //   setTopCategories(sortedTop5);
+  // }, [items]);
 
-      setTopCategories(sortedTop5);
-    } catch (error) {
-      console.error("Error fetching feed items:", error);
-    }
-  };
+// useEffect(() => {
+//   const fetchData = async () => {
+//     try {
+//       const res = await fetch("/api/items");
+//       const items = await res.json();
 
-  fetchData();
-}, []);
+//       // Filter by section
+//       const feedItems = items.filter((item) => item.section === "feed");
+
+//       // Group by category
+//       const grouped = groupByCategory(feedItems);
+
+//       // Sort categories by number of posts, take top 5
+//       const sortedTop5 = Object.entries(grouped)
+//         .sort((a, b) => b[1].length - a[1].length)
+//         .slice(0, 5);
+
+//       setTopCategories(sortedTop5);
+//     } catch (error) {
+//       console.error("Error fetching feed items:", error);
+//     }
+//   };
+
+//   fetchData();
+// }, []);
 
 
   return (
@@ -52,9 +67,15 @@ useEffect(() => {
       <section className=" px-6 py-12 w-full space-y-16 max-w-7xl mx-auto ">
         {/* <section className="p-8 sm:p-20 pb-20 row-start-2 flex flex-col gap-16 items-center sm:items-start"> */}
         <FadeInSection>
-          <h1 className="text-4xl font-bold mb-10 text-indigo-950">
-             🔥 Hot Spots and Must See Favorites
+          <h1 className="sm:text-4xl text-center lg:text-left text-3xl font-bold text-indigo-950">
+            📍 Drop-In Destinations
           </h1>
+          <CategoryPillsMobile/>
+
+          <p className="hidden sm:block text-lg text-gray-600 max-w-xl mt-2 text-center sm:text-left">
+            Discover curated, camera-ready spots made for memories — from local
+            gems to highlight reel stars.
+          </p>
         </FadeInSection>
         {topCategories.map(([category, posts], index) => {
           const emoji = getCategoryEmoji(category) || getCategoryEmoji.default;
@@ -66,9 +87,15 @@ useEffect(() => {
                     .toLowerCase()
                     .replace(/[^a-z]/gi, "")}`}
                 >
-                  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-red-400 hover:underline capitalize ">
+                  <h2 className="text-center sm:text-left text-3xl md:text-4xl font-bold mb-3 text-red-400 hover:underline capitalize ">
                     {emoji} {category}
                   </h2>
+                  <p className="text-base text-gray-500 mb-4 hidden sm:text-xl sm:block sm:text-left">
+                    {getCategoryTagline(category, "full")}
+                  </p>
+                  <p className="text-xl text-gray-500 mb-4 font-bold sm:hidden text-center">
+                    {getCategoryTagline(category, "short")}
+                  </p>
                 </Link>
 
                 <div className="flex flex-col gap-6 sm:flex-row sm:overflow-x-auto sm:pb-2 sm:scrollbar-thin sm:scrollbar-thumb-white/20">

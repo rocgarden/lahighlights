@@ -1,6 +1,12 @@
+import Breadcrumb from "../components/Breadcrumb";
 export default function TermsPage() {
   return (
     <main className="max-w-4xl mx-auto mt-24 px-6 pb-20 text-indigo-950">
+       <Breadcrumb
+              items={[
+                { label: "Home", href: "/" },
+              ]}
+            />
       <h1 className="text-4xl font-bold mb-6">Terms & Disclaimer</h1>
       <p className="mb-4">
         The content on this site is intended for informational and inspirational

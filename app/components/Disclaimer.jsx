@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Disclaimer() {
   return (
     <div className="mt-16 text-sm bg-black/50 rounded text-white/60 border-t border-white/20 pt-6 px-2 sm:px-0">
@@ -15,9 +17,9 @@ export default function Disclaimer() {
       </ul>
       <p className="mt-3">
         Use at your own risk. See our{" "}
-        <a href="/terms" className="underline hover:text-blue-300">
+        <Link href="/terms" className="underline hover:text-blue-300">
           full terms
-        </a>{" "}
+        </Link>{" "}
         for more.
       </p>
     </div>

@@ -1,5 +1,8 @@
+//services/itineraryService
 import connectDB from "@/lib/dbConnect";
 import Itinerary from "@/models/Itinerary";
+import redis from "@/lib/redis";
+import { serializeItinerary } from "@/lib/utils/serializeItinerary";
 import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 const s3 = new S3Client({
@@ -33,10 +36,63 @@ async function generateUniqueSlug(title) {
 }
 
 
+let cached = null;
+let lastFetched = 0;
+
+// export async function getItineraries() {
+//     console.log("Fetching itineraries from DB...");
+
+//   const now = Date.now();
+//   const CACHE_DURATION = 60000; //60s
+
+//    if (cached && now - lastFetched < CACHE_DURATION) {
+//      return cached;
+//    }
+  
+//   await connectDB();
+//   const itineraries = await Itinerary.find().sort({ createdAt: -1 }).lean();
+   
+//   const formatted = itineraries.map((itinerary) => ({
+//     ...itinerary,
+//     _id: itinerary._id.toString(),
+//     highlights: itinerary.highlights?.map((h) => ({
+//       ...h,
+//       _id: h._id?.toString?.() ?? null,
+//         activity: h.activity || "",
+//     place: h.place || "",
+//     timeOfDay: h.timeOfDay || "",
+//     day: h.day || 1,
+//     addressLink: h.addressLink || "",
+//   })) || [],
+//     createdAt: itinerary.createdAt.toISOString(), // optional: serialize Date
+//   }));
+//   cached = formatted;
+//   lastFetched = now;
+
+//   return formatted;
+// }
+
+//***** getItineraries using Redis cache /serialized db data
 export async function getItineraries() {
   await connectDB();
-  return await Itinerary.find().sort({ createdAt: -1 });
+
+  const cacheKey = "itineraries:all";
+  const cached = await redis.get(cacheKey);
+
+  if (cached) {
+    console.log("itineraries cache hit");
+    return JSON.parse(cached);
+  }
+    console.log("itineraries db hit");
+
+  const results = await Itinerary.find({});
+  const serialized = results.map(serializeItinerary);
+
+  await redis.set(cacheKey, JSON.stringify(serialized), "EX", 3600); // cache 1 hr
+
+  return serialized;
 }
+
 
 export async function createItinerary(data) {
   await connectDB();

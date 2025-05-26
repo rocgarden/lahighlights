@@ -1,12 +1,14 @@
 import { getAllItems, createItem, getItemsByCreator } from "@/services/itemService";
 import { getAuthSession } from "@/lib/auth";
 
+
 export async function GET(req) {
-    try {
+  try {
    const { searchParams } = new URL(req.url);
    const email = searchParams.get("email");
-      console.log("email:: ", email);
-      let items = [];
+ 
+
+   let items = [];
    if (email) {
       items = await getItemsByCreator(email);
    } else {
@@ -29,7 +31,8 @@ export async function GET(req) {
         mediaType: item.mediaType,
         creator: item.creator,
       }));
-   return Response.json(publicItems);
+
+     return Response.json(publicItems);
 
     } catch (err) {
         console.error("Failed to fetch items:", err);

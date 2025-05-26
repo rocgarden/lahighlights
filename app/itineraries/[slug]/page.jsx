@@ -1,3 +1,4 @@
+//app/itineraries/slug/page
 import Itinerary from "@/models/Itinerary";
 import connectDB from "@/lib/dbConnect";
 import { notFound } from "next/navigation";
@@ -8,38 +9,47 @@ import CreatorBadge from "@/app/components/CreatorBadge";
 import Breadcrumb from "@/app/components/Breadcrumb";
 import DayTimeline from "@/app/components/DayTimeline";
 import Link from "next/link";
+import { generateItineraryMetadata } from "@/lib/utils/generateItineraryMetadata";
+import redis from "@/lib/redis";
+import { serializeItinerary } from "@/lib/utils/serializeItinerary";
 
-export async function generateMetadata({ params }) {
+export const revalidate = 120;
+export async function generateMetadata(props) {
+  const { slug } = await props.params;
   await connectDB();
-  const itinerary = await Itinerary.findOne({ slug: params.slug });
-  if (!itinerary) return { title: "Itinerary Not Found" };
 
-  return {
-    title: `${itinerary.title} in ${itinerary.city} | Local Itineraries`,
-    description: itinerary.description,
-    highlights: itinerary.highlights,
-    openGraph: {
-      title: itinerary.title,
-      description: itinerary.description,
-      images: [
-        {
-          url: itinerary.fileUrl,
-          width: 1200,
-          height: 630,
-          alt: itinerary.title,
-        },
-      ],
-      url: `https://norahbird.com/itineraries/${params.slug}`,
-    },
-  };
+  let itinerary;
+  const cached = await redis.get(`itinerary:${slug}`);
+
+  if (cached) {
+    itinerary = JSON.parse(cached);
+  } else {
+    const raw = await Itinerary.findOne({ slug });
+    if (!raw) return {};
+    itinerary = serializeItinerary(raw);
+    await redis.set(`itinerary:${slug}`, JSON.stringify(itinerary), "EX", 3600); // cache 1 hour
+  }
+
+  return generateItineraryMetadata(itinerary, slug);
 }
 
-export default async function ItineraryDetailPage({ params }) {
+export default async function ItineraryDetailPage(props) {
+  const { slug } = await props.params;
   await connectDB();
 
-  const itinerary = await Itinerary.findOne({ slug: params.slug });
-  if (!itinerary) return notFound();
+  let itinerary;
+  const cached = await redis.get(`itinerary:${slug}`);
 
+  if (cached) {
+    console.log("✅ CACHE HIT for", slug);
+    itinerary = JSON.parse(cached);
+  } else {
+    console.log("❌ CACHE MISS — Fetching from DB for", slug);
+    const raw = await Itinerary.findOne({ slug });
+    if (!raw) return notFound();
+    itinerary = serializeItinerary(raw);
+    await redis.set(`itinerary:${slug}`, JSON.stringify(itinerary), "EX", 3600); // 1 hour cache
+  }
   const {
     title,
     city,
@@ -54,7 +64,7 @@ export default async function ItineraryDetailPage({ params }) {
   } = itinerary;
 
   return (
-    <section className="max-w-4xl mx-auto bg-red-400 px-6 mt-24 mb-4 pt-10 pb-12 sm:m-4text-white rounded-lg">
+    <section className=" max-w-3xl mx-5 sm:mx-auto bg-red-400 px-4  sm:px-6 mt-16 sm:mt-24 mb-4 pt-8 sm:pt-10 pb-12 text-white rounded-lg">
       <Breadcrumb
         items={[
           { label: "Home", href: "/" },
@@ -62,11 +72,11 @@ export default async function ItineraryDetailPage({ params }) {
           { label: title }, // current page
         ]}
       />
-
-      <h1 className="text-4xl font-bold mb-2">Itinerary: {title}</h1>
-      <p className="text-xl text-white/80 mb-4">📍 {city}</p>
-
-      <div className="flex gap-3 mb-6 text-sm">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
+        Itinerary: {title}
+      </h1>{" "}
+      <p className="text-base sm:text-lg text-white/80 mb-4">📍 {city}</p>
+      <div className="flex flex-wrap gap-3 mb-6 text-sm">
         <span className="bg-blue-600/80 px-3 py-1 rounded-full">
           ⏳ {duration}
         </span>
@@ -77,7 +87,6 @@ export default async function ItineraryDetailPage({ params }) {
           🕒 {new Date(createdAt).toLocaleDateString()}
         </span>
       </div>
-
       {fileUrl && (
         <div className="mb-6 w-full sm:w-3/4 md:w-2/3 lg:w-1/2 mx-auto rounded-lg overflow-hidden shadow-lg">
           {mediaType === "video" ? (
@@ -91,13 +100,11 @@ export default async function ItineraryDetailPage({ params }) {
           )}
         </div>
       )}
-
-      <article className="text-white/90 leading-relaxed mb-4 text-lg whitespace-pre-wrap">
+      <article className="text-white/90 leading-relaxed mb-4 text-base sm:text-lg whitespace-pre-wrap">
         {description}
       </article>
-
       {/* Structured Highlights */}
-      <p className="text-lg text-white font-bold mb-4">
+      <p className="text-md sm:text-lg text-center text-white font-semibold mb-6 mt-6">
         📋 Your Curated Itinerary
       </p>
       {[...new Set(highlights.map((h) => h.day))]
@@ -152,7 +159,6 @@ export default async function ItineraryDetailPage({ params }) {
           //   </ul>
           // </div>
         })}
-
       {/* {highlights?.length > 0 && (
         <ul className="text-white text-xl mt-2 space-y-1">
           {highlights.slice(0, 3).map((highlight, idx) => {
@@ -170,16 +176,18 @@ export default async function ItineraryDetailPage({ params }) {
           {highlights.length > 3 && <li>✅...</li>}
         </ul>
       )} */}
-
       {/* <div className="mt-10 text-sm text-white/60">✍️  ✍️Posted by: {creator}</div> */}
       <div className="mt-10 text-sm text-white/60">
         <CreatorBadge creator="Norah Bird" />
       </div>
-      <div className="mt-16 text-sm text-white/60 border-t border-white/20 pt-6">
-        ⚠️ <strong>Disclaimer:</strong> This itinerary is for inspiration only.
-        Always check ahead for availability, allergens, accessibility, and other
-        personal needs. Use at your own risk. See <Link href="/terms">Terms.</Link>
-      </div> 
+      <div className="mt-12 sm:mt-16 text-xs sm:text-sm text-white/60 border-t border-white/20 pt-6 leading-relaxed">
+        ⚠️ <strong className="font-semibold">Disclaimer:</strong> This itinerary
+        is for inspiration only. Always check ahead for availability, allergens,
+        accessibility, and other personal needs. Use at your own risk. See{" "}
+        <Link href="/terms" className="underline hover:text-white">
+          Terms.
+        </Link>
+      </div>
     </section>
   );
 }

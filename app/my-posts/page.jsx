@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Breadcrumb from "../components/Breadcrumb";
+import Link from "next/link";
 const MyPosts = () => {
   const router = useRouter();
     const { data: session, status } = useSession({
@@ -88,12 +89,12 @@ const MyPosts = () => {
                     <p className="text-sm">Description:{item.content}</p>
                   </div>
                   <div className="space-x-2">
-                    <a
+                    <Link
                       href={`/items/${item._id}/edit`}
                       className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
                     >
                       Edit
-                    </a>
+                    </Link>
                     <button
                       onClick={() => handleDelete(item._id)}
                       className="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-white text-sm"

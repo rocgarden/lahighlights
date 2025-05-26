@@ -4,11 +4,11 @@ import { getItineraryBySlug } from "@/services/itineraryService";
 
 // Metadata for SEO
 
-export async function generateMetadata({ params }) {
-  const itinerary = await getItineraryBySlug({ slug: params.slug });
-  //const itinerary = await getItineraryBySlug( slug: params.slug );
-  return generateItineraryMetadata(itinerary, params.slug);
-}
+// export async function generateMetadata({ params }) {
+//   const itinerary = await getItineraryBySlug({ slug: params.slug });
+//   //const itinerary = await getItineraryBySlug( slug: params.slug );
+//   return generateItineraryMetadata(itinerary, params.slug);
+// }
 
 export async function generateMetadata({ params }) {
   const post = await getPostById(params.id);

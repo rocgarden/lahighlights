@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
-import { getItemsByCategory, getAllItems } from "@/services/itemService";
+import { getItemsByCategory } from "@/services/itemService";
+import { getAllCategories } from "@/services/itemService";
 import PostCard from "@/app/components/PostCard";
 import Breadcrumb from "@/app/components/Breadcrumb";
 import Link from "next/link";
@@ -9,7 +10,7 @@ import Disclaimer from "@/app/components/Disclaimer";
 export const dynamicParams = true; // Allow dynamic fallback if needed (optional)
 
 export async function generateStaticParams() {
-  const items = await getAllItems();
+  const items = await getAllCategories();
 
   const categories = Array.from(
     new Set(items.map((item) => item.category?.toLowerCase()).filter(Boolean))
@@ -21,21 +22,23 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const name = params.name;
+  const name = await params?.name || 'Category';
   return {
     title: `${name.charAt(0).toUpperCase() + name.slice(1)} | Category | MyApp`,
     description: `Explore all posts in the ${name} category.`,
   };
 }
 
+export const revalidate = 86400;
+
 export default async function CategoryPage({ params }) {
-  const category = params.name;
+  const category = await params?.name;
   const posts = await getItemsByCategory(category);
 
   if (!posts || posts.length === 0) {
     return (
       <div className="px-6 py-12 text-white">
-        <h1 className="text-3xl font-bold">No posts found in "{category}"</h1>
+        <h1 className="text-3xl font-bold">No posts found in {category}</h1>
       </div>
     );
   }

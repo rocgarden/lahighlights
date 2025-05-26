@@ -1,4 +1,5 @@
 // GET all or by query, POST new itinerary
+//api/itineraries/route
 import { getAuthSession } from "@/lib/auth";
 import { getItineraries, createItinerary } from "@/services/itineraryService";
 
@@ -6,7 +7,12 @@ export async function GET(req) {
   const url = new URL(req.url);
   const city = url.searchParams.get("city");
   const itineraries = await getItineraries(city);
-  return Response.json(itineraries);
+   const filtered = city
+     ? itineraries.filter((i) => i.city?.toLowerCase() === city.toLowerCase())
+     : itineraries;  
+
+
+  return Response.json(filtered);
 }
 
 export async function POST(req) {

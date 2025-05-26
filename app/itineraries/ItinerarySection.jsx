@@ -1,41 +1,47 @@
-"use client";
-
-import { useState, useEffect } from "react";
+//app/itineraries/itinerarySection.jsx
 import ItineraryCard from "../components/itineraryCard";
 import FadeInSection from "../components/FadeInSection";
+import { getItineraries } from "@/services/itineraryService";
 
-export default function ItinerarySection() {
-  const [itineraries, setItineraries] = useState([]);
+export const revalidate = 60;
 
-  useEffect(() => {
-    const fetchItineraries = async () => {
-      try {
-        const res = await fetch("/api/itineraries");
-        const data = await res.json();
-        setItineraries(data);
-      } catch (error) {
-        console.error("Error fetching itineraries:", error);
-      }
-    };
+export default async function ItinerarySection() {
+  //const [itineraries, setItineraries] = useState([]);
+  const itineraries = await getItineraries();
 
-    fetchItineraries();
-  }, []);
+  // useEffect(() => {
+  //   const fetchItineraries = async () => {
+  //     try {
+  //       const res = await fetch("/api/itineraries");
+  //       const data = await res.json();
+  //       setItineraries(data);
+  //     } catch (error) {
+  //       console.error("Error fetching itineraries:", error);
+  //     }
+  //   };
+
+  //   fetchItineraries();
+  // }, []);
 
   if (!itineraries?.length) return null;
 
   return (
     <FadeInSection>
-      <h2 className="text-3xl md:text-4xl font-bold mb-6 ">
+      <h2 className="text-3xl md:text-4xl font-bold text-center md:text-left mb-6 ">
         🗺️ <span className="text-gradient-animated">Local Itineraries</span>
       </h2>
-      <div className="flex flex-col gap-6 sm:flex-row sm:overflow-x-auto sm:scrollbar-thin sm:scrollbar-thumb-white/20">
+      <p className="text-indigo-800 text-base text-center md:text-left sm:text-lg mb-6 sm:mb-8 leading-relaxed">
+        ✨Bite-sized adventures to explore L.A. your way.
+      </p>
+
+      <div className="flex flex-col gap-6 lg:flex-row lg:overflow-x-auto lg:scrollbar-thin lg:scrollbar-thumb-white/20 scroll-smooth touch-auto snap-x snap-mandatory">
         {itineraries.map((itinerary) => (
           <div
             key={itinerary._id}
-            className="w-full sm:w-[300px] flex-shrink-0"
+            className=" w-full sm:w-[300px]  flex-shrink-0 snap-start"
           >
             {" "}
-            <ItineraryCard key={itinerary._id} itinerary={itinerary} />
+            <ItineraryCard itinerary={itinerary} />
           </div>
         ))}
       </div>

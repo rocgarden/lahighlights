@@ -11,19 +11,19 @@ export default function DayTimeline({ day, highlights }) {
       {/* Header */}
       <button
         onClick={() => setOpen(!open)}
-        className="w-full text-left text-white text-2xl font-semibold underline mb-2 flex items-center justify-between"
+        className="w-full text-left text-indigo-800 text-2xl font-semibold underline mb-2 flex items-center justify-between"
       >
         🗓️ Day {day}
-        <span className="text-sm text-white/60">
+        <span className="ml-2 text-sm text-white/60 whitespace-nowrap">
           {open ? "Collapse ▲" : "Expand ▼"}
         </span>
       </button>
 
       { open && (
         <>
-          <p className="text-lg text-white mb-6">What Your Day {day} Looks Like:</p>
+          <p className="text-base sm:text-lg text-white mb-6">What Your Day {day} Looks Like:</p>
 
-          <div className="relative border-l border-white/30 pl-6 space-y-8">
+          <div className="relative border-l border-white/30 pl-4 sm:pl-6 space-y-8">
             { highlights.length === 0? (
                 <p className="text-white/60">No highlights found for this day.</p>
             ): (
@@ -41,10 +41,10 @@ export default function DayTimeline({ day, highlights }) {
                           highlight.timeOfDay.slice(1)
                         }`}
                     </div>
-                    <div className="text-lg font-semibold text-white">
+                    <div className="text-lg sm:text-xl font-semibold text-white">
                       {phrasing} {highlight.activity}
                     </div>
-                    <div className="text-white/70">
+                    <div className="text-white/70 break-words">
                       📍{" "}
                       <a
                         href={

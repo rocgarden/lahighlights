@@ -20,6 +20,16 @@ export default function NavbarLinks({ onClick }) {
           Home
         </Link>
       </li>
+      <li>
+        <Link href="/itineraries" onClick={onClick}>
+          Itineraries
+        </Link>
+      </li>
+      <li>
+        <Link href="/Featured" onClick={onClick}>
+          Featured Places
+        </Link>
+      </li>
       {session?.user?.isAdmin && (
         <>
           <li>
@@ -38,10 +48,7 @@ export default function NavbarLinks({ onClick }) {
             </Link>
           </li>
           <li>
-            <Link
-              href="/My-Itineraries"
-              className="text-sm text-blue-600"
-            >
+            <Link href="/My-Itineraries" className="text-sm text-blue-600">
               Manage My Itineraries
             </Link>
           </li>

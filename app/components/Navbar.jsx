@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import clsx from "clsx";
 import NavbarLinks from "./NavbarLinks";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,14 +36,14 @@ export default function Navbar() {
     >
       {/* Logo */}
       <div className="h-8 mt-3 flex items-center text-2xl font-bold text-white">
-        <a href="/" className="flex items-center space-x-3">
+        <Link href="/" className="flex items-center space-x-3">
           <img
             src="/norahLogo.png"
             alt="Logo"
             className="h-[10rem] w-auto object-contain"
           />
           {/* <span>Norah Bird</span> */}
-        </a>
+        </Link>
       </div>
 
       {/* Desktop Menu */}

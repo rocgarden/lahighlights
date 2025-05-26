@@ -11,7 +11,6 @@ export default function FeaturedSection() {
       try {
         const res = await fetch("/api/items");
         const items = await res.json();
-        console.log("featured items:: ",items)
         const featured = items
           .filter((item) => item.section === "featured")
           .map((item) => ({

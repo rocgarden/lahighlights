@@ -2,8 +2,12 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 export default function Breadcrumb({ items }) {
-  const router = useRouter();
+  const pathname = usePathname();
+  const pathParts = pathname.split("?")[0].split("/").filter(Boolean);
+
+ // const router = useRouter();
 
   // If manual items are provided, use them
   if (items && items.length > 0) {
@@ -31,7 +35,7 @@ export default function Breadcrumb({ items }) {
   }
 
   // Fallback: build from URL path (safe, but generic)
-  const pathParts = router.asPath.split("?")[0].split("/").filter(Boolean);
+  //const pathParts = router.asPath.split("?")[0].split("/").filter(Boolean);
 
   if (pathParts.length === 0) return null; // No breadcrumb on homepage
 

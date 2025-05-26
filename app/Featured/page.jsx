@@ -1,5 +1,5 @@
 // app/featured/page.jsx
-
+import Breadcrumb from "../components/Breadcrumb";
 import FeaturedSection from "../components/FeaturedSection";
 
 export const metadata = {
@@ -45,6 +45,12 @@ export const metadata = {
 export default function FeaturedPage() {
   return (
     <main className=" max-w-7xl mx-auto min-h-screen px-6 py-12 mt-10 space-y-12">
+       <Breadcrumb
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Featured"}
+              ]}
+            />
       <div className="space-y-4">
         {/* <h1 className="text-4xl font-bold text-indigo-950">
           ⭐ Featured Places

@@ -1,7 +1,7 @@
 import  connectDB  from '@/lib/dbConnect';
 import Post from "@/models/Post";
 import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
-
+import redis  from '@/lib/redis';
 const s3 = new S3Client({
   region: process.env.S3_REGION,
   credentials: {
@@ -59,17 +59,32 @@ export async function updateItem(id, updatedData) {
 
 // Get all items
 export async function getAllItems() {
+  const cacheKey = "items:all";
+  const cached = await redis.get(cacheKey);
+
+  if (cached) {
+    return JSON.parse(cached);
+  }
+
   await connectDB();
+  console.log("🔍 getAllItems fetched from DB at", new Date().toISOString());
+
   const items = await Post.find().sort({ createdAt: -1 }).lean();
-  return items.map((item) => ({
+
+  const serialized = items.map((item) => ({
     ...item,
     _id: item._id.toString(),
     creator: item.creator?.toString() || null,
     createdAt: item.createdAt?.toISOString() || null,
     updatedAt: item.updatedAt?.toISOString() || null,
-    imageUrl: item.imageUrl  || "/fallback.jpg" , // fallback image
+    imageUrl: item.imageUrl || "/fallback.jpg",
   }));
+
+  await redis.set(cacheKey, JSON.stringify(serialized), "EX", 86400); // 1 day cache
+
+  return serialized;
 }
+
 
 //get items by email-creator
 export async function getItemsByCreator(email) {
@@ -89,22 +104,46 @@ export async function getItemsByCreator(email) {
   }));
 }
 
-// ✅ function to filter by category
+export async function getAllCategories() {
+  await connectDB();
+
+  const results = await Post.find({}, "category").lean();
+  const categories = Array.from(
+    new Set(results.map((item) => item.category?.toLowerCase()).filter(Boolean))
+  );
+
+  return categories;
+}
+
+
+// ✅ function to filter by category , cached/serialized
 export async function getItemsByCategory(category) {
   await connectDB();
+
+  const cacheKey = `category:${category.toLowerCase()}`;
+  const cached = await redis.get(cacheKey);
+
+  if (cached) {
+    return JSON.parse(cached);
+  }
+
   const posts = await Post.find({
     category: { $regex: new RegExp(category, "i") },
   })
     .sort({ createdAt: -1 })
-    .lean(); // 🔑 Use lean()
+    .lean(); // lean for plain JS objects
 
-  return posts.map((post) => ({
+  const serialized = posts.map((post) => ({
     ...post,
     _id: post._id.toString(),
-    creator: post.creator?.toString() || null, // serialize ObjectId
+    creator: post.creator?.toString() || null,
     createdAt: post.createdAt?.toISOString() || null,
     updatedAt: post.updatedAt?.toISOString() || null,
   }));
+
+  await redis.set(cacheKey, JSON.stringify(serialized), "EX", 3600); // 1 hour
+
+  return serialized;
 }
 
 
