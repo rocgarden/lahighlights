@@ -7,33 +7,41 @@ import ItinerarySection from "./itineraries/ItinerarySection";
 import Featured from "./components/Featured";
 import Link from "next/link";
 import { getAllItems } from "@/services/itemService";
-// export const metadata = {
-//   title: "Monthly Challenges | MyApp",
-//   description:
-//     "Explore creative posts from our community, organized by category.",
-//   openGraph: {
-//     title: "Monthly Challenges | MyApp",
-//     description:
-//       "Explore creative posts from our community, organized by category.",
-//     url: "https://yoursite.com",
-//     siteName: "MyApp",
-//     images: [
-//       {
-//         url: "/og-image.jpg", // optional default hero/banner image
-//         width: 1200,
-//         height: 630,
-//         alt: "Monthly Challenges",
-//       },
-//     ],
-//     type: "website",
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Monthly Challenges | MyApp",
-//     description: "Explore creative posts from our community.",
-//     images: ["/og-image.jpg"],
-//   },
-// };
+export const metadata = {
+   title: "⭐ Los Angeles: Explore Top Travel Picks and Hidden Gems | Norah Bird",
+  description:
+    "Discover handpicked featured destinations with detailed insights and local highlights. Explore our curated travel itineraries today!",
+  keywords: [
+    "featured travel",
+    "curated itineraries",
+    "top destinations",
+    "Norah Bird",
+    "travel recommendations",
+    "community travel picks",
+  ],
+  openGraph: {
+    title: "Los Angeles Highlights | NorahBird",
+    description:
+      "Explore creative posts from our community, organized by category.",
+    url: "https://norahbird.com",
+    siteName: "Norah Bird",
+    images: [
+      {
+        url: "/og-image.jpg", // optional default hero/banner image
+        width: 1200,
+        height: 630,
+        alt: "",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Los Angeles Highlights | Norah Bird",
+    description: "Explore creative posts from our community.",
+    images: ["/og-image.jpg"],
+  },
+};
 
 async function fetchFeedItems() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/items`, {
@@ -57,27 +65,54 @@ function groupByCategory(items) {
 
 export default async function Home() {
 
- const items = await getAllItems();
- console.log("📍 Home loaded");
- const feedItems = items.filter((item) => item.section === "feed");
-const heroItems = items.filter((item) => item.section === "hero");
-const featuredItem = items.filter((item) => item.section === "featured");
+  const items = await getAllItems();
+  console.log("📍 Home loaded");
+  const feedItems = items.filter((item) => item.section === "feed");
+  const heroItems = items.filter((item) => item.section === "hero");
+  const featuredItem = items.filter((item) => item.section === "featured");
 
- const grouped = groupByCategory(feedItems);
- const sortedTop5 = Object.entries(grouped)
-   .sort((a, b) => b[1].length - a[1].length)
+  const grouped = groupByCategory(feedItems);
+  const sortedTop5 = Object.entries(grouped)
+    .sort((a, b) => b[1].length - a[1].length)
     .slice(0, 5);
+
   return (
     <div className="min-h-screen grid grid-rows-[auto_1fr_auto] font-[family-name:var(--font-geist-sans)] overflow-x-hidden">
-      {/* Full-width Hero */}
-      <Hero slides={heroItems} />
+      {/* Hero Section with Static Fallback for SEO / no-JS  */}
+      <div className="row-start-1 w-full relative">
+        {/* Fallback only shown on small */}
+        <section className="block sm:hidden aspect-[4/3] max-w-6xl mx-auto overflow-hidden rounded-lg shadow-lg">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={heroItems[0]?.imageUrl}
+            alt={heroItems[0]?.title || "Los Angeles Hot Spot Image"}
+            className="object-cover w-full h-full rounded-lg"
+            width={1200}
+            height={600}
+          />
+          <div className="absolute bottom-0 w-full bg-gradient-to-t  from-black/80 to-transparent text-white p-4">
+            <h3 className="text-xl font-semibold mb-1">
+              Los Angeles Attractions for Tourists and Natives
+            </h3>
+            <p className="text-sm">
+              Whether you’re just vibing in LA for the weekend or repping it as
+              a local, 👀 These spots? Non-negotiable. 📍Add to your bucket list
+              nowww.
+            </p>
+          </div>
+        </section>
+
+        {/* JS carousel version (hidden on small screens) */}
+        <div className="hidden sm:block">
+          <Hero slides={heroItems} />
+        </div>
+      </div>
 
       {/* Main Content Section */}
       <main className="row-start-2">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 xl:px-24 py-12 flex flex-col gap-16 items-center sm:items-start">
           <div className="flex gap-4 items-center flex-col sm:flex-row">
             <HomeFeed topCategories={sortedTop5} />
-
             {/* Add more components here if needed */}
           </div>
         </div>

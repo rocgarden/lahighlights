@@ -7,6 +7,7 @@ import {
   getItineraryBySlug
 } from "@/services/itineraryService";
 import { getAuthSession } from "@/lib/auth";
+import redis from "@/lib/redis";
 
 export async function GET(_, { params }) {
   const itinerary = await getItineraryById(params.id);
@@ -51,7 +52,7 @@ export async function DELETE(_, { params }) {
      });
    }
 
-   const itinerary = await getItineraryBySlug(params.slug);
+   const itinerary = await getItineraryById(params.id);
    if (!itinerary) {
      return new Response(JSON.stringify({ error: "Itinerary not found" }), {
        status: 404,
@@ -64,6 +65,12 @@ export async function DELETE(_, { params }) {
      });
   };
   
-  const deleted = await deleteItineraryBySlug(params.slug);
+  const deleted = await deleteItinerary(params.id);
+
+  await redis.del("itineraries:all");
+  if (itinerary.slug) {
+    await redis.del(`itineraries:slug:${itinerary.slug}`);
+  }
+
   return Response.json({ success: true, deleted });
 }

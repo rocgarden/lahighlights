@@ -71,7 +71,8 @@ export async function getAllItems() {
 
   const items = await Post.find().sort({ createdAt: -1 }).lean();
 
-  const serialized = items.map((item) => ({
+  const serialized =
+    items.map((item) => ({
     ...item,
     _id: item._id.toString(),
     creator: item.creator?.toString() || null,

@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 import { useDropUploader } from "@/hooks/useDropUploader";
 //import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
@@ -75,7 +75,7 @@ const EditItem = ({ item }) => {
           {fileInfo?.mediaType === "video" ? (
             <video src={previewUrl} controls width={250} />
           ) : (
-            <img src={previewUrl} alt="preview" width={250} />
+            <Image src={previewUrl} height={200} alt="preview" width={250} />
           )}
           <button type="button" onClick={removeFile}>
             Remove

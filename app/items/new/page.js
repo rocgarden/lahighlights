@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useDropUploader } from "@/hooks/useDropUploader";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const NewItem = () => {
   const router = useRouter();
@@ -249,7 +250,7 @@ const NewItem = () => {
           {fileInfo?.mediaType === "video" ? (
             <video src={previewUrl} controls className="w-full rounded" />
           ) : (
-            <img src={previewUrl} alt="preview" className="w-full rounded" />
+            <Image src={previewUrl} alt="preview" width={300} height={200} className="w-full rounded" />
           )}
           <button
             type="button"

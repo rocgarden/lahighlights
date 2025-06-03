@@ -21,6 +21,8 @@ const bakbak = Bakbak_One({
 
 
 export const metadata = {
+  metadataBase: new URL("https://norahbird.com"),
+
   title: "Norah Bird | Discover Local Itineraries and Hidden Travel Gems",
   description:
     "Explore curated travel itineraries, handpicked destinations, and insider tips from the Norah Bird community.",

@@ -4,10 +4,12 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-
+import { useRouter } from "next/navigation";
 export default function MyItineraries() {
   const { data: session, status } = useSession();
   const [itineraries, setItineraries] = useState([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -18,13 +20,14 @@ export default function MyItineraries() {
     }
   }, [session]);
 
-  const handleDelete = async (slug) => {
+  const handleDelete = async (id) => {
     const confirmed = confirm("Delete this itinerary?");
     if (!confirmed) return;
 
-    const res = await fetch(`/api/itineraries/${slug}`, { method: "DELETE" });
+    const res = await fetch(`/api/itineraries/${id}`, { method: "DELETE" });
     if (res.ok) {
-      setItineraries(itineraries.filter((item) => item.slug !== id));
+      setItineraries(itineraries.filter((item) => item.id !== id));
+      router.push("/");
     } else {
       console.error("Delete failed");
     }
@@ -70,7 +73,7 @@ export default function MyItineraries() {
                   </button>
                 </Link>
                 <button
-                  onClick={() => handleDelete(itinerary.slug)}
+                  onClick={() => handleDelete(itinerary._id)}
                   className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
                 >
                   Delete

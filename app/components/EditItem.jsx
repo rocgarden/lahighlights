@@ -5,6 +5,9 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 const EditItem = ({ item }) => {
+  const [submissionStatus, setSubmissionStatus] = useState(null); // null | "success" | "error"
+  const [loading, setLoading] = useState(false);
+
     const router = useRouter();
 
     const { data: session } = useSession({
@@ -26,6 +29,7 @@ const EditItem = ({ item }) => {
   });
  console.log( "editing item:: ",{item})
   const {
+    files,
     previewUrl,
     fileInfo,
     errorStatus,
@@ -37,26 +41,63 @@ const EditItem = ({ item }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-   const creator = session?.user?.email;
-
-    const res = await fetch(`/api/items/${item._id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...formData,
+    setLoading(true);
+    setSubmissionStatus(null);
+    const creator = session?.user?.email;
+   
+    if (files.length > 0 && !fileInfo?.fileUrl) {
+      setLoading(false);
+      setSubmissionStatus("error");
+      alert("Please wait for the files to upload");
+      return;
+    };
+    const { title, content, category, section, address, addressLink } =
+      formData;
+    try {
+      const updatedItem = {
+        title,
+        content,
+        category,
+        section,
         creator,
-        fileUrl: fileInfo?.fileUrl || item.fileUrl, // fallback to original
+        fileUrl: fileInfo?.fileUrl || item.fileUrl,
+        imageUrl: fileInfo?.fileUrl || item.imageUrl,
         mediaType: fileInfo?.mediaType || item.mediaType,
-      }),
-    });
-      if (res.ok) {
-          const updated = await res.json();
-          console.log("✅ Updated item:: ", updated);
-          alert("Post updated successfully!");
-          router.push("/my-posts");
-      } else {
-          console.error("❌ Failed to update item.");
+      };
+      const res = await fetch(`/api/items/${item._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedItem),
+      });
+
+      if (!res.ok) throw new Error("Failed to update item");
+
+      setSubmissionStatus("success");
+      router.push("/my-posts"); // or wherever you want
+    } catch (err) {
+      console.error("Edit error:", err);
+      setSubmissionStatus("error");
+    } finally {
+      setLoading(false);
     }
+    // const res = await fetch(`/api/items/${item._id}`, {
+    //   method: "PUT",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     ...formData,
+    //     creator,
+    //     fileUrl: fileInfo?.fileUrl || item.fileUrl, // fallback to original
+    //     mediaType: fileInfo?.mediaType || item.mediaType,
+    //   }),
+    // });
+    //   if (res.ok) {
+    //       const updated = await res.json();
+    //       console.log("✅ Updated item:: ", updated);
+    //       alert("Post updated successfully!");
+    //       router.push("/my-posts");
+    //   } else {
+    //       console.error("❌ Failed to update item.");
+    // }
   };
 
   return (
@@ -108,7 +149,6 @@ const EditItem = ({ item }) => {
           className="w-full p-2 rounded border bg-white/10 text-white"
         />
         <p className="text-sm text-white/60">{formData.content.length}/300</p>
-
         <h3 className="font-bold text-lg py-2">Edit Category</h3>
         <select
           id="category"
@@ -125,7 +165,6 @@ const EditItem = ({ item }) => {
           <option value="events">🎉 Events</option>
           <option value="parks">🌳 Parks</option>
         </select>
-
         <h3 className="font-bold text-lg py-2">Edit Address</h3>
         <textarea
           value={formData.address}
@@ -185,6 +224,13 @@ const EditItem = ({ item }) => {
           Save Changes
         </button>{" "}
       </form>
+      {loading && <p className="text-blue-500 font-bold m-5">Updating item...</p>}
+      {submissionStatus === "success" && (
+        <p className="text-green-600 font-bold m-5">Item updated successfully!</p>
+      )}
+      {submissionStatus === "error" && (
+        <p className="text-red-600 font-bold m-5">Something went wrong. Please try again.</p>
+      )}
     </div>
   );
 };

@@ -15,23 +15,23 @@
 
 import { updateItem, deleteItem, getItemById } from "@/services/itemService";
 import { getAuthSession } from "@/lib/auth";
+import  redis  from "@/lib/redis";
 
 export async function PUT(req, { params }) {
   const session = await getAuthSession();
- 
-   // 🔐 Restrict access to logged-in users only
+
+  // 🔐 Restrict access to logged-in users only
   if (!session || !process.env.ALLOWED_USERS.includes(session.user.email)) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 403,
     });
   }
 
-
   // const id = params.id;
   const item = await getItemById(params.id);
   if (!item) {
-    return new Response(JSON.stringify({ error: 'Item not found' }), {
-      status: 404
+    return new Response(JSON.stringify({ error: "Item not found" }), {
+      status: 404,
     });
   }
 
@@ -42,20 +42,46 @@ export async function PUT(req, { params }) {
   }
   const data = await req.json();
   const updated = await updateItem(params.id, data);
+
+  // ✅ Invalidate Redis cache
+  await redis.del("items:all");
+  if (item.section) await redis.del(`items:section:${item.section}`);
+  if (item.category) await redis.del(`items:category:${item.category}`);
+
   return Response.json(updated);
 }
 
 export async function DELETE(req, { params }) {
   const session = await getAuthSession();
 
-   // 🔐 Restrict access to logged-in users only
-   if (!session || !process.env.ALLOWED_USERS.includes(session.user.email)) {
-     return new Response("Unauthorized", { status: 403 });
-   }
+  // 🔐 Restrict access to logged-in users only
+  if (!session || !process.env.ALLOWED_USERS.includes(session.user.email)) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 403,
+    });
+  }
+
+  const item = await getItemById(params.id);
+  if (!item) {
+    return new Response(JSON.stringify({ error: "Item not found" }), {
+      status: 404,
+    });
+  }
+
+  if (item.creator !== session.user.email) {
+    return new Response(JSON.stringify({ error: "Forbidden" }), {
+      status: 403,
+    });
+  };
   
-  const id = params.id;
-  const deleted = await deleteItem(id);
-  return Response.json({ success: true, deleted });
+  const deleted = await deleteItem(params.id);
+
+  // ✅ Invalidate Redis cache
+  await redis.del("items:all");
+  if (item.section) await redis.del(`items:section:${item.section}`);
+  if (item.category) await redis.del(`items:category:${item.category}`);
+
+  return Response.json({ success: true, message: "Item Deleted!!", deleted });
 }
 
 

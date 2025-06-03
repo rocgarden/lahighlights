@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import Image from "next/image";
 
 const MAX_FILE_SIZE = 1024 * 5000;
 const allowedTypes = [
@@ -100,7 +101,8 @@ const DropZoneUploader = ({ onUploadComplete, initialUrl }) => {
           {files[0]?.type?.startsWith("video") ? (
             <video src={previewUrl} controls width={250} />
           ) : (
-            <img src={previewUrl} alt="preview" width={250} />
+            // <img src={previewUrl} alt="preview" width={250} />
+            <Image src={previewUrl} alt="preview" width={250} height={250} />
           )}
         </div>
       )}

@@ -19,7 +19,7 @@ export default async function EditPage({ params }) {
       />
       {/* <div className="max-w-4xl mx-auto p-6 pt-25 text-white"> */}
       <div className="flex flex-col mx-auto  bg-[#9ab581] items-center  min-h-screen mt-5 text-white">
-        <h1 className="text-2xl font-bold mb-4">Edit Post</h1>
+        <h1 className="text-2xl font-bold mb-4">Edit Post!</h1>
         <EditItem item={item} />
       </div>
     </div>

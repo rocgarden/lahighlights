@@ -2,6 +2,7 @@
 //api/itineraries/route
 import { getAuthSession } from "@/lib/auth";
 import { getItineraries, createItinerary } from "@/services/itineraryService";
+import redis  from "@/lib/redis";
 
 export async function GET(req) {
   const url = new URL(req.url);
@@ -22,7 +23,22 @@ export async function POST(req) {
     return new Response("Unauthorized", { status: 403 });
   };
   
-  const data = await req.json();
-  const newItinerary = await createItinerary(data);
-  return Response.json(newItinerary);
+  try {
+    const data = await req.json();
+    const newItinerary = await createItinerary(data);
+
+    // ✅ Invalidate cache
+    await redis.del("itineraries:all");
+    if (newItinerary.slug) {
+      await redis.del(`itineraries:slug:${newItinerary.slug}`);
+    }
+
+    return Response.json(newItinerary, { status: 201 });
+  } catch (err) {
+    return Response.json(
+      console.log(err),
+      { error: "Failed to create itinerary" },
+      { status: 500 }
+    );
+  }
 }

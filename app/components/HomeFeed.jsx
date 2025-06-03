@@ -16,7 +16,7 @@ function groupByCategory(items) {
     return acc;
   }, {});
 }
-export default function HomeFeed({topCategories}) {
+export default function HomeFeed({ topCategories }) {
 //const [groupedPosts, setGroupedPosts] = useState({});
 //const [topCategories, setTopCategories] = useState([]);
 
@@ -98,7 +98,9 @@ export default function HomeFeed({topCategories}) {
                   </p>
                 </Link>
 
-                <div className="flex flex-col gap-6 sm:flex-row sm:overflow-x-auto sm:pb-2 sm:scrollbar-thin sm:scrollbar-thumb-white/20">
+                {/* <div className="flex flex-col gap-6 sm:flex-row sm:overflow-x-auto sm:pb-2 sm:scrollbar-thin sm:scrollbar-thumb-white/20"> */}
+                <div className="flex flex-col gap-6 sm:flex-row sm:overflow-x-auto sm:scrollbar-thin sm:scrollbar-thumb-white/20">
+  
                   {posts.map((post) => (
                     <div
                       key={post._id}

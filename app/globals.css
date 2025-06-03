@@ -12,7 +12,8 @@
     background-size: 200% 200%;
   };
   .text-gradient-animated {
-    background: linear-gradient(to right, rgb(173, 83, 137), rgb(60, 16, 83));
+    /* background: linear-gradient(to right, rgb(173, 83, 137), rgb(60, 16, 83)); */
+    background: linear-gradient(to right, rgb(241, 136, 199), rgb(60, 16, 83));
     background-size: 200% auto;
     background-clip: text;
     -webkit-background-clip: text;

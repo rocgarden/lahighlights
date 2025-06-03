@@ -22,7 +22,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const name = await params?.name || 'Category';
+  const name =  params?.name || 'Category';
   return {
     title: `${name.charAt(0).toUpperCase() + name.slice(1)} | Category | MyApp`,
     description: `Explore all posts in the ${name} category.`,
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }) {
 export const revalidate = 86400;
 
 export default async function CategoryPage({ params }) {
-  const category = await params?.name;
+  const category =  params?.name;
   const posts = await getItemsByCategory(category);
 
   if (!posts || posts.length === 0) {

@@ -1,6 +1,6 @@
 import { getAllItems, createItem, getItemsByCreator } from "@/services/itemService";
 import { getAuthSession } from "@/lib/auth";
-
+import redis from "@/lib/redis";
 
 export async function GET(req) {
   try {
@@ -56,8 +56,13 @@ export async function POST(req) {
   try {
     const body = await req.json();
     const creator = session.user.email;
-      
+
     const newItem = await createItem(body, creator); // Handles saving to DB
+
+    // ✅ Invalidate cache after DB save
+    await redis.del("items:all");
+    //await redis.del(`items:by-category:${newItem.category?.toLowerCase()}`);
+
     return Response.json(newItem, { status: 201 });
   } catch (err) {
     return Response.json(

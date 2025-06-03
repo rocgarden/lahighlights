@@ -9,8 +9,8 @@ export default function Hero({ slides }) {
         <div className="flex flex-col md:flex-row items-center gap-1">
           {/* Left Column */}
           <div className="block md:hidden w-full overflow-hidden px-1 mt-2">
-            <div className="grid grid-cols-2 gap-0">
-              {[...Array(4)].map((_, colIdx) => (
+            <div className="grid grid-cols-3 gap-0">
+              {[...Array(6)].map((_, colIdx) => (
                 <div key={colIdx} className="relative h-18">
                   <h1 className="absolute top-0 left-0 text-2xl font-bold leading-none whitespace-nowrap animate-pulse mix-blend-overlay">
                     LOS ANGELES

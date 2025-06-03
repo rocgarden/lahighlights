@@ -23,7 +23,7 @@ export default function DayTimeline({ day, highlights }) {
         <>
           <p className="text-base sm:text-lg text-white mb-6">What Your Day {day} Looks Like:</p>
 
-          <div className="relative border-l border-white/30 pl-4 sm:pl-6 space-y-8">
+          <div className="relative border-l border-white/80 pl-4 sm:pl-6 space-y-8">
             { highlights.length === 0? (
                 <p className="text-white/60">No highlights found for this day.</p>
             ): (
@@ -34,7 +34,7 @@ export default function DayTimeline({ day, highlights }) {
                 <div key={idx} className="relative">
                   <span className="absolute -left-2 top-1 w-3 h-3 bg-white rounded-full"></span>
                   <div className="text-white ">
-                    <div className="text-sm text-indigo-300 uppercase mx-3 tracking-wide mb-1">
+                    <div className="text-sm text-indigo-800 font-semibold uppercase mx-3 tracking-wide mb-1">
                       {highlight.timeOfDay &&
                         `${
                           highlight.timeOfDay[0].toUpperCase() +

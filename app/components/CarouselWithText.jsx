@@ -91,18 +91,21 @@ export default function CarouselWithText({ slides}) {
 
   return (
     //added aspect ratio
-    <div className="relative w-full aspect-[4/3] max-w-md mx-auto overflow-hidden rounded-lg shadow-lg">
+    //<div className="relative w-full aspect-[4/3] max-w-md mx-auto overflow-hidden rounded-lg shadow-lg">
+      <section
+      aria-label="Snap Spots Carousel"
+      role="region"
+      aria-roledescription="carousel"
+      className="relative w-full max-w-6xl aspect-[4/3] mx-auto overflow-hidden rounded-lg shadow-lg"
+         >
       <Image
         src={imageUrl}
         alt={title}
         fill
-        //width={800}
-        //height={600}
-        className="object-cover rounded-lg"
-        // className="w-full h-auto object-cover"
         priority
+        className="object-cover rounded-lg"
       />
-      <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent text-white p-4">
+      <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent text-white p-4 md:p-6">  
         {
           <FadeInSection
             delay={0.1}
@@ -111,18 +114,23 @@ export default function CarouselWithText({ slides}) {
             once={false}
             trigger="always"
           >
-            <h3 className="text-xl font-semibold mb-1">{title}</h3>
-            <p className="text-sm mb-2">{content}</p>
-            {/* <a
+            <h3 className="text-lg sm:text-xl md:text-2xl font-semibold mb-1">{title}</h3>
+            <p className="text-sm sm:text-base max-w-prose mb-2">{content}</p>
+             {/* {link && (
+            <a
               href={link}
-              className="inline-block bg-blue-600 hover:bg-blue-700 transition text-sm py-1 px-3 rounded"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`View more about ${title}`}
+              className="inline-block bg-blue-600 hover:bg-blue-700 text-white rounded py-1.5 px-4 mt-2 text-sm sm:text-base transition"
             >
-              Read more
-            </a> */}
+              View Details
+            </a>
+             )} */}
           </FadeInSection>
         }
         {/* Dots */}
-        <div className="flex justify-center mt-3 gap-2">
+        <div className="flex justify-center mt-3 gap-2" aria-hidden="true">
           {slides.map((_, index) => (
             <span
               key={index}
@@ -133,6 +141,6 @@ export default function CarouselWithText({ slides}) {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
