@@ -32,7 +32,8 @@ export default function DayTimeline({ day, highlights }) {
 
               return (
                 <div key={idx} className="relative">
-                  <span className="absolute -left-2 top-1 w-3 h-3 bg-white rounded-full"></span>
+                  {/* <span className="absolute -left-2 top-1 w-3 h-3 bg-white rounded-full"></span> */}
+                  <span className="absolute -left-2 top-0">⏱️</span>
                   <div className="text-white ">
                     <div className="text-sm text-indigo-800 font-semibold uppercase mx-3 tracking-wide mb-1">
                       {highlight.timeOfDay &&

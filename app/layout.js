@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Provider from "./components/Provider";
 import Footer from "./components/Footer";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -22,10 +23,12 @@ const bakbak = Bakbak_One({
 
 export const metadata = {
   metadataBase: new URL("https://norahbird.com"),
-
   title: "Norah Bird | Discover Local Itineraries and Hidden Travel Gems",
   description:
     "Explore curated travel itineraries, handpicked destinations, and insider tips from the Norah Bird community.",
+  icons: {
+    icon: "/favicon.ico",
+  },
   openGraph: {
     title: "Norah Bird",
     description: "Discover local itineraries, places, and travel tips",
