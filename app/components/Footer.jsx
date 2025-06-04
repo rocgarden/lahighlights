@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8">
         {/* Brand / About */}
         <div>
-          <h2 className="text-xl font-semibold mb-3">LOS ANGELES</h2>
+          <h2 className="text-xl font-semibold mb-3">LOS ANGELES HIGHLIGHTS</h2>
           <p className="text-sm text-white/70">
             Discover top spots, hidden gems, and local favorites in LA.
           </p>

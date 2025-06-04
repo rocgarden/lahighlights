@@ -48,7 +48,7 @@ export default function MyItineraries() {
       {itineraries.length === 0 ? (
         <p>No itineraries yet.</p>
       ) : (
-        <div className="space-y-6 bg-[#FFDB58] rounded-md">
+        <div className="space-y-6 bg-[#FFDB58] rounded-md text-indigo-900">
           {itineraries.map((itinerary) => (
             <div
               key={itinerary.slug}
@@ -58,8 +58,8 @@ export default function MyItineraries() {
                 <h2 className="text-xl font-bold">
                   {itinerary.title} – {itinerary.city}
                 </h2>
-                <p className="text-sm text-white">
-                  {itinerary.duration} • {itinerary.type}
+                <p className="text-sm text-indigo-900">
+                  Duration and Type: {itinerary.duration} • {itinerary.type}
                 </p>
               </div>
               <div className="flex  gap-4 mt-2">

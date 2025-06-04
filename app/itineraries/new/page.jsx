@@ -177,6 +177,18 @@ export default function NewItineraryPage() {
       className="p-6 mt-24 bg-red-400 space-y-4 text-white max-w-xl mx-auto rounded-lg"
     >
       <h1 className="text-3xl font-bold mb-4">Create New Itinerary</h1>
+      <details className="bg-white/10 p-3 rounded text-sm text-white">
+        <summary className="cursor-pointer font-semibold">
+          ✅ Tips for a Great Itinerary
+        </summary>
+        <ul className="mt-2 list-disc list-inside space-y-1">
+          <li>Use a clear, specific title (e.g., “48 Hours in Echo Park”)</li>
+          <li>Add 2–3 highlights per day</li>
+          <li>Include a mix of activities: food, walk, event, etc.</li>
+          <li>Upload at least one image or video</li>
+          <li>Write short, helpful descriptions using keywords with local flair</li>
+        </ul>
+      </details>
 
       <input
         className="w-full p-2 bg-white/10 rounded"

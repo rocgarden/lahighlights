@@ -70,10 +70,24 @@ const NewItem = () => {
       className="bg-red-400 border border-white/10 p-6 mt-25 rounded-lg shadow max-w-2xl mx-auto w-full space-y-6 mb-3 text-white"
     >
       <h2 className="text-2xl font-bold">Create New Post</h2>
+      <details className="bg-white/10 p-3 rounded text-sm text-white">
+        <summary className="cursor-pointer font-semibold">
+          ✅ Tips for New Posts
+        </summary>
+        <ul className="mt-2 list-disc list-inside space-y-1">
+          <li>Use Google Maps to get accurate location details</li>
+          <li>Copy the google maps directions/phone number and web addess links</li>
+          <li>Include a mix of activities: food, walk, event, etc.</li>
+          <li>Upload at least one image or video</li>
+          <li>
+            Write short, helpful descriptions using keywords
+          </li>
+        </ul>
+      </details>
       {/* Section Dropdown */}
       <div>
         <label htmlFor="section" className="block mb-1 font-medium">
-          Section
+          Section on Home Page
         </label>
         <select
           id="section"
@@ -152,7 +166,7 @@ const NewItem = () => {
       {/* Address */}
       <div>
         <label htmlFor="address" className="block mb-1 font-medium">
-          Address
+          Address- Use Online Directions Link
         </label>
         <input
           id="address"
@@ -219,7 +233,7 @@ const NewItem = () => {
       {/* Place Data (JSON) */}
       <div>
         <label htmlFor="placeData" className="block mb-1 font-medium">
-          Place Data (JSON)
+          Place Data (JSON)- Safely Ignore this area
         </label>
         <textarea
           id="placeData"
@@ -250,7 +264,13 @@ const NewItem = () => {
           {fileInfo?.mediaType === "video" ? (
             <video src={previewUrl} controls className="w-full rounded" />
           ) : (
-            <Image src={previewUrl} alt="preview" width={300} height={200} className="w-full rounded" />
+            <Image
+              src={previewUrl}
+              alt="preview"
+              width={300}
+              height={200}
+              className="w-full rounded"
+            />
           )}
           <button
             type="button"

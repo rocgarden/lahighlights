@@ -4,7 +4,7 @@ import Breadcrumb from "../components/Breadcrumb";
 
 export default function MyItinerariesPage() {
   return (
-    <div className="mt-25">
+    <div className="mt-25 ">
    <Breadcrumb
       items={[
         { label: "Home", href: "/" },
