@@ -43,13 +43,6 @@ export const metadata = {
   },
 };
 
-async function fetchFeedItems() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/items`, {
-    next: { revalidate:86400},
-  });
-  const items = await res.json();
-  return items;
-}
 
 // ISR: Revalidate once per day (86400 seconds)
 export const revalidate = 86400;

@@ -73,11 +73,14 @@ export default function Footer() {
       </div>
 
       {/* Bottom line */}
-      <div className="mt-10 text-center text-xs text-white/40 border-t border-white/10 pt-6">
+      <div className="mt-10 text-center text-xs text-white/40 border-t border-white/20 pt-6">
         &copy; {new Date().getFullYear()} Los Angeles Highlights. All rights
         reserved.
       </div>
-      <div className="mt-16 text-xs text-white/40 border-t border-white/20 pt-6">
+      <div className="text-center text-xs text-white/40">
+        Norah Bird
+      </div>
+      <div className="mt-10 text-xs text-white/40 border-t border-white/20 pt-3">
         <strong>Disclaimer:</strong> All content provided on this site is for
         general informational purposes only. Always check ahead for
         availability, allergens, accessibility, and other personal needs. Use at

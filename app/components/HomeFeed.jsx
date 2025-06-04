@@ -68,9 +68,9 @@ export default function HomeFeed({ topCategories }) {
         {/* <section className="p-8 sm:p-20 pb-20 row-start-2 flex flex-col gap-16 items-center sm:items-start"> */}
         <FadeInSection>
           <h1 className="sm:text-4xl text-center lg:text-left text-3xl font-bold text-indigo-950">
-            📍 Drop-In Destinations
+            🕶️<span className="text-gradient-animated">Drop-In Destinations and Curated Itineraries</span>
           </h1>
-          <CategoryPillsMobile/>
+          <CategoryPillsMobile />
 
           <p className="hidden sm:block text-lg text-gray-600 max-w-xl mt-2 text-center sm:text-left">
             Discover curated, camera-ready spots made for memories — from local
@@ -100,7 +100,6 @@ export default function HomeFeed({ topCategories }) {
 
                 {/* <div className="flex flex-col gap-6 sm:flex-row sm:overflow-x-auto sm:pb-2 sm:scrollbar-thin sm:scrollbar-thumb-white/20"> */}
                 <div className="flex flex-col gap-6 sm:flex-row sm:overflow-x-auto sm:scrollbar-thin sm:scrollbar-thumb-white/20">
-  
                   {posts.map((post) => (
                     <div
                       key={post._id}

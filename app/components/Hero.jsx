@@ -46,7 +46,7 @@ export default function Hero({ slides }) {
               ANGELES
             </h1>
             <p className="text-2xl mt-4">
-              Your L.A. starter pack — spots, snaps & shortcuts 🚕{" "}
+              Your L.A. starter pack — spots, snaps & hidden gems. 🌴{" "}
             </p>
           </div>
 
