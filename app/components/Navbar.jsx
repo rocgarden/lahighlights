@@ -38,9 +38,9 @@ export default function Navbar() {
       <div className="h-8 mt-3 flex items-center text-2xl font-bold text-white">
         <Link href="/" className="flex items-center space-x-3">
           <img
-            src="/norahLogo.png"
+            src="/NorahLogoGroup.svg"
             alt="Logo"
-            className="h-[10rem] w-auto object-contain"
+            className="h-20 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
           />
           {/* <span>Norah Bird</span> */}
         </Link>

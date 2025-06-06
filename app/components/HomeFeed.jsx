@@ -17,7 +17,7 @@ function groupByCategory(items) {
   }, {});
 }
 export default function HomeFeed({ topCategories }) {
-//const [groupedPosts, setGroupedPosts] = useState({});
+  //const [groupedPosts, setGroupedPosts] = useState({});
 //const [topCategories, setTopCategories] = useState([]);
 
   // useEffect(() => {

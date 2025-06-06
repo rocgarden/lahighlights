@@ -63,7 +63,7 @@ export default async function Home() {
   const feedItems = items.filter((item) => item.section === "feed");
   const heroItems = items.filter((item) => item.section === "hero");
   const featuredItem = items.filter((item) => item.section === "featured");
-
+  console.log("feedItems:: ", feedItems);
   const grouped = groupByCategory(feedItems);
   const sortedTop5 = Object.entries(grouped)
     .sort((a, b) => b[1].length - a[1].length)
@@ -101,7 +101,7 @@ export default async function Home() {
         </div>
       </div>
 
-      {/* Main Content Section */}
+      {/* Main Content Section */} 
       <main className="row-start-2">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 xl:px-24 py-12 flex flex-col gap-16 items-center sm:items-start">
           <div className="flex gap-4 items-center flex-col sm:flex-row">
