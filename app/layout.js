@@ -56,14 +56,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${bakbak.variable} antialiased overflow-x-hidden` }
+        className={`${geistSans.variable} ${geistMono.variable} ${bakbak.variable} antialiased overflow-x-hidden`}
       >
         <Provider>
-        <Navbar />
-        {children}
-        {/* <main className="pt-24 sm:pt-28">{children}</main> */}
+          <Navbar />
+          {children}
+          {/* <main className="pt-24 sm:pt-28">{children}</main> */}
         </Provider>
-        <Footer/>
+        <Footer />
       </body>
     </html>
   );

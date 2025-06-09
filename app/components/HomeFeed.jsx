@@ -68,7 +68,7 @@ export default function HomeFeed({ topCategories }) {
         {/* <section className="p-8 sm:p-20 pb-20 row-start-2 flex flex-col gap-16 items-center sm:items-start"> */}
         <FadeInSection>
           <h1 className="sm:text-4xl text-center lg:text-left text-3xl font-bold text-indigo-950">
-            🕶️<span className="text-gradient-animated">Drop-In Destinations and Curated Itineraries</span>
+            🕶️<span className="text-gradient-animated">Drop-In Destinations</span>
           </h1>
           <CategoryPillsMobile />
 

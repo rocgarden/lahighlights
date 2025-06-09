@@ -1,11 +1,10 @@
-import Image from "next/image";
-import NewItem from "./items/new/page";
 import Hero from "./components/Hero";
 import HomeFeed from "./components/HomeFeed";
 import Footer from "./components/Footer";
 import ItinerarySection from "./itineraries/ItinerarySection";
 import Featured from "./components/Featured";
 import Link from "next/link";
+import Head from "next/head";
 import { getAllItems } from "@/services/itemService";
 export const metadata = {
    title: "⭐ Los Angeles: Explore Top Travel Picks and Hidden Gems | Norah Bird",
@@ -101,8 +100,30 @@ export default async function Home() {
         </div>
       </div>
 
-      {/* Main Content Section */} 
+      {/* Main Content Section */}
       <main className="row-start-2">
+        <section className="w-full px-6 pt-10 text-center ">
+          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-950">
+            <Link
+              href="/itineraries"
+              className="text-indigo-800 underline font-semibold"
+            >
+              ✨ Explore Curated LA Itineraries
+            </Link>{" "}
+          </h2>
+          <p className="lg:block hidden mt-2 text-lg text-gray-600">
+            From food crawls to mural missions — plan your next LA moment.
+          </p>
+          {/* <p className="mt-3">
+            <Link
+              href="/itineraries"
+              className="text-indigo-800 underline font-semibold"
+            >
+              ✨ Explore Curated LA Itineraries
+            </Link>
+          </p> */}
+        </section>
+
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 xl:px-24 py-12 flex flex-col gap-16 items-center sm:items-start">
           <div className="flex gap-4 items-center flex-col sm:flex-row">
             <HomeFeed topCategories={sortedTop5} />

@@ -92,20 +92,20 @@ export default function CarouselWithText({ slides}) {
   return (
     //added aspect ratio
     //<div className="relative w-full aspect-[4/3] max-w-md mx-auto overflow-hidden rounded-lg shadow-lg">
-      <section
+    <section
       aria-label="Snap Spots Carousel"
       role="region"
       aria-roledescription="carousel"
       className="relative w-full max-w-6xl aspect-[4/3] mx-auto overflow-hidden rounded-lg shadow-lg"
-         >
+    >
       <Image
         src={imageUrl}
-        alt={title}
+        alt={title || "Los Angeles Hot Spot Image"}
         fill
         priority
         className="object-cover rounded-lg"
       />
-      <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent text-white p-4 md:p-6">  
+      <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent text-white p-4 md:p-6">
         {
           <FadeInSection
             delay={0.1}
@@ -114,9 +114,11 @@ export default function CarouselWithText({ slides}) {
             once={false}
             trigger="always"
           >
-            <h3 className="text-lg sm:text-xl md:text-2xl font-semibold mb-1">{title}</h3>
+            <h3 className="text-lg sm:text-xl md:text-2xl font-semibold mb-1">
+              {title}
+            </h3>
             <p className="text-sm sm:text-base max-w-prose mb-2">{content}</p>
-             {/* {link && (
+            {/* {link && (
             <a
               href={link}
               target="_blank"

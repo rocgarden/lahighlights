@@ -1,0 +1,27 @@
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "LA Travel Itineraries",
+  "description": "A curated list of travel itineraries and photo-friendly destinations in Los Angeles.",
+  "url": "https://norahbird.com/itineraries",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "url": "https://norahbird.com/itineraries/la-weekender",
+      "name": "LA Weekender"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "url": "https://norahbird.com/itineraries/sunset-photo-tour",
+      "name": "Sunset Photo Tour"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "url": "https://norahbird.com/itineraries/art-murals-tour",
+      "name": "Art Murals Tour"
+    }
+  ]
+}
