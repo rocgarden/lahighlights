@@ -7,7 +7,8 @@ import Link from "next/link";
 import Head from "next/head";
 import { getAllItems } from "@/services/itemService";
 export const metadata = {
-   title: "⭐ Los Angeles: Explore Top Travel Picks and Hidden Gems | Norah Bird",
+  title:
+    "⭐ Los Angeles: Explore Top Travel Picks and Hidden Gems | Norah Bird",
   description:
     "Discover handpicked featured destinations with detailed insights and local highlights. Explore our curated travel itineraries today!",
   keywords: [
@@ -26,10 +27,10 @@ export const metadata = {
     siteName: "Norah Bird",
     images: [
       {
-        url: "/og-image.jpg", // optional default hero/banner image
+        url: "/NorahLogoGroup.svg", // optional default hero/banner image
         width: 1200,
         height: 630,
-        alt: "",
+        alt: "NorahBird",
       },
     ],
     type: "website",
@@ -38,7 +39,12 @@ export const metadata = {
     card: "summary_large_image",
     title: "Los Angeles Highlights | Norah Bird",
     description: "Explore creative posts from our community.",
-    images: ["/og-image.jpg"],
+    creator: "Norah Bird",
+    site: "NorahBird",
+    images: ["/NorahLogoGroup.svg"],
+  },
+  alternates: {
+    canonical: "https://norahbird.com",
   },
 };
 
@@ -56,6 +62,17 @@ function groupByCategory(items) {
 }
 
 export default async function Home() {
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "LA Highlights",
+      url: "https://lahighlights.vercel.app/",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: "https://lahighlights.vercel.app/search?q={search_term_string}",
+        "query-input": "required name=search_term_string",
+      },
+    };
 
   const items = await getAllItems();
   console.log("📍 Home loaded");
@@ -70,6 +87,12 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen grid grid-rows-[auto_1fr_auto] font-[family-name:var(--font-geist-sans)] overflow-x-hidden">
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+      </Head>
       {/* Hero Section with Static Fallback for SEO / no-JS  */}
       <div className="row-start-1 w-full relative">
         {/* Fallback only shown on small */}
