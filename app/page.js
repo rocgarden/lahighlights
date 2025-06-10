@@ -87,12 +87,12 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen grid grid-rows-[auto_1fr_auto] font-[family-name:var(--font-geist-sans)] overflow-x-hidden">
-      <head>
+      <Head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-      </head>
+      </Head>
       {/* Hero Section with Static Fallback for SEO / no-JS  */}
       <div className="row-start-1 w-full relative">
         {/* Fallback only shown on small */}
