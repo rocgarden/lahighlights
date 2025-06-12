@@ -89,8 +89,7 @@ export default async function Home() {
     <div className="min-h-screen grid grid-rows-[auto_1fr_auto] font-[family-name:var(--font-geist-sans)] overflow-x-hidden">
       <Head>
         <script
-          type="applic
-          ation/ld+json"
+          type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </Head>

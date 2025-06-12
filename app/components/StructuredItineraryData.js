@@ -8,16 +8,9 @@ export default function StructuredItineraryData({ itinerary }) {
 
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "TouristTrip",
+    "@type": "Product",
     name: itinerary.title,
-    description: itinerary.description,
-    itinerary: itinerary.highlights.map((highlight, index) => ({
-      "@type": "TouristAttraction",
-      name: highlight.place || highlight.activity,
-      description: highlight.activity,
-      position: index + 1,
-    })),
-    touristType: itinerary.type, // e.g. 'family', 'solo'
+    description: itinerary.description || itinerary.type,
     image: itinerary.fileUrl || "https://lahighlights.vercel.app/default.jpg",
     offers: {
       "@type": "Offer",
@@ -26,14 +19,9 @@ export default function StructuredItineraryData({ itinerary }) {
       availability: "https://schema.org/InStock",
       url: `https://lahighlights.vercel.app/itineraries/${itinerary.slug}`,
     },
-    provider: {
-      "@type": "Organization",
-      name: "LA Highlights",
-      url: "https://lahighlights.vercel.app",
-    },
-    areaServed: {
-      "@type": "Place",
-      name: itinerary.city,
+    brand: {
+      "@type": "Brand",
+      name: "Norah Bird",
     },
   };
 
