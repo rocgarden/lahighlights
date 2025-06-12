@@ -13,6 +13,7 @@ import { generateItineraryMetadata } from "@/lib/utils/generateItineraryMetadata
 import redis from "@/lib/redis";
 import { serializeItinerary } from "@/lib/utils/serializeItinerary";
 import StructuredItineraryData from "@/app/components/StructuredItineraryData";
+import Head from "next/head";
 
 export const revalidate = 120;
 export async function generateMetadata(props) {
@@ -66,7 +67,10 @@ export default async function ItineraryDetailPage(props) {
 
   return (
     <>
-      <StructuredItineraryData itinerary={itinerary} />
+      <Head>
+        {" "}
+        <StructuredItineraryData itinerary={itinerary} />
+      </Head>
       <section className=" max-w-3xl mx-5 sm:mx-auto bg-red-400 px-4  sm:px-6 mt-16 sm:mt-24 mb-4 pt-8 sm:pt-10 pb-12 text-white rounded-lg">
         <Breadcrumb
           items={[
