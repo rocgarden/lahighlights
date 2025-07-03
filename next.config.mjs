@@ -26,10 +26,11 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: `
                   default-src 'self';
-                  script-src 'self' 'unsafe-inline';
+                  connect-src 'self' https://nexts3-bucket.s3.us-east-2.amazonaws.com;
+                  script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com;
                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
                   font-src 'self' https://fonts.gstatic.com;
-                  img-src 'self' data: https://nexts3-bucket.s3.us-east-2.amazonaws.com https://s3.amazonaws.com;
+                  img-src 'self' data: blob: https://nexts3-bucket.s3.us-east-2.amazonaws.com https://s3.amazonaws.com;
                   frame-ancestors 'none';
                 `
               .replace(/\n/g, "")
