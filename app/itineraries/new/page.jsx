@@ -38,7 +38,8 @@ export default function NewItineraryPage() {
       dinner: "evening",
       party: "night",
       themePark: "all day",
-      museum: "afternoon"
+      museum: "afternoon",
+      movie: "afternoon"
     };
 
   const durationDayMap = {
@@ -186,7 +187,9 @@ export default function NewItineraryPage() {
           <li>Add 2–3 highlights per day</li>
           <li>Include a mix of activities: food, walk, event, etc.</li>
           <li>Upload at least one image or video</li>
-          <li>Write short, helpful descriptions using keywords with local flair</li>
+          <li>
+            Write short, helpful descriptions using keywords with local flair
+          </li>
         </ul>
       </details>
 
@@ -306,12 +309,13 @@ export default function NewItineraryPage() {
             <option value="themePark">Theme Park</option>
             <option value="museum">Museum</option>
             <option value="event">Special Event</option>
+            <option value="movie">Movie</option>
           </select>
 
           {/* Place Input */}
           <input
             className="w-full p-2 bg-white/10 rounded"
-            placeholder="Place (e.g., 'Bear Hill')"
+            placeholder="Place URL(e.g., 'Bear Hill')"
             value={highlight.place}
             onChange={(e) =>
               handleHighlightChange(index, "place", e.target.value)

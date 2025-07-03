@@ -4,8 +4,18 @@ import { useState } from "react";
 import { getPhrasingForActivity } from "@/lib/utils/phrasingForActivity";
 
 export default function DayTimeline({ day, highlights }) {
-   const [open, setOpen] = useState(true);
-   
+  const [open, setOpen] = useState(true);
+
+  function formatActivityName(str) {
+    if (!str) return "";
+    console.log(highlights)
+    return  str
+      .replace(/([a-z])([A-Z])/g, "$1 $2") // Split camelCase
+      .replace(/(^\w|\s\w)/g, (match) => match.toUpperCase()); // Capitalize first letters
+  };
+
+
+
   return (
     <div className="mb-10">
       {/* Header */}
@@ -29,6 +39,7 @@ export default function DayTimeline({ day, highlights }) {
             ): (
             highlights.map((highlight, idx) => {
             const phrasing = getPhrasingForActivity(highlight.activity);
+            const activity = formatActivityName(highlight.activity);
 
               return (
                 <div key={idx} className="relative">
@@ -43,7 +54,7 @@ export default function DayTimeline({ day, highlights }) {
                         }`}
                     </div>
                     <div className="text-lg sm:text-xl font-semibold text-white">
-                      {phrasing} {highlight.activity}
+                      {phrasing} {activity}
                     </div>
                     <div className="text-white/70 break-words">
                       📍{" "}
