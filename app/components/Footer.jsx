@@ -77,14 +77,13 @@ export default function Footer() {
         &copy; {new Date().getFullYear()} Los Angeles Highlights. All rights
         reserved.
       </div>
-      <div className="text-center text-xs text-white/40">
-        Norah Bird
-      </div>
+      <div className="text-center text-xs text-white/40">Norah Bird</div>
       <div className="mt-10 text-xs text-white/40 border-t border-white/20 pt-3">
         <strong>Disclaimer:</strong> All content provided on this site is for
         general informational purposes only. Always check ahead for
         availability, allergens, accessibility, and other personal needs. Use at
-        your own risk. See{" "}
+        your own risk. All trademarks and brand names are the property of their
+        respective owners. See{" "}
         <Link href="/terms" className="hover:underline">
           Terms
         </Link>

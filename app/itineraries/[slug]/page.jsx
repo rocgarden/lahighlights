@@ -191,7 +191,8 @@ export default async function ItineraryDetailPage(props) {
           ⚠️ <strong className="font-semibold">Disclaimer:</strong> This
           itinerary is for inspiration only. Always check ahead for
           availability, allergens, accessibility, and other personal needs. Use
-          at your own risk. See{" "}
+          at your own risk. All trademarks and brand names are the property of
+          their respective owners. Use does not imply endorsement. See{" "}
           <Link href="/terms" className="underline hover:text-white">
             Terms.
           </Link>

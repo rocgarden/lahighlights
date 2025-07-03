@@ -2,11 +2,7 @@ import Breadcrumb from "../components/Breadcrumb";
 export default function TermsPage() {
   return (
     <main className="max-w-4xl mx-auto mt-24 px-6 pb-20 text-indigo-950">
-       <Breadcrumb
-              items={[
-                { label: "Home", href: "/" },
-              ]}
-            />
+      <Breadcrumb items={[{ label: "Home", href: "/" }]} />
       <h1 className="text-4xl font-bold mb-6">Terms & Disclaimer</h1>
       <p className="mb-4">
         The content on this site is intended for informational and inspirational
@@ -49,9 +45,13 @@ export default function TermsPage() {
       reproduction or distribution is prohibited. ### 7. Modifications We may
       update these terms at any time without prior notice. Continued use of the
       site constitutes your acceptance of any changes. ### 8. Governing Law
-      These terms are governed by the laws of \[Your State/Country]. --- If you
-      have any questions about these terms, please contact us at \[your email
-      address]. Thank you for visiting!
+      These terms are governed by the laws of \[Your State/Country].All
+      trademarks, logos, and brand names are the property of their respective
+      owners. All company, product, and service names used in this website are
+      for identification purposes only. Use of these names, trademarks, and
+      brands does not imply endorsement. --- If you have any questions about
+      these terms, please contact us at \[your email address]. Thank you for
+      visiting!
       <p className="text-sm text-black/60">
         By using this site, you acknowledge and accept these terms.
       </p>
