@@ -14,6 +14,7 @@ import redis from "@/lib/redis";
 import { serializeItinerary } from "@/lib/utils/serializeItinerary";
 import StructuredItineraryData from "@/app/components/StructuredItineraryData";
 import Head from "next/head";
+import RelatedItineraries from "@/app/components/RelatedItineraries";
 
 export const revalidate = 120;
 export async function generateMetadata(props) {
@@ -40,18 +41,35 @@ export default async function ItineraryDetailPage(props) {
   await connectDB();
 
   let itinerary;
+  let raw;
+
   const cached = await redis.get(`itinerary:${slug}`);
 
   if (cached) {
-    console.log("✅ CACHE HIT for", slug);
     itinerary = JSON.parse(cached);
   } else {
-    console.log("❌ CACHE MISS — Fetching from DB for", slug);
-    const raw = await Itinerary.findOne({ slug });
+    raw = await Itinerary.findOne({ slug });
     if (!raw) return notFound();
     itinerary = serializeItinerary(raw);
     await redis.set(`itinerary:${slug}`, JSON.stringify(itinerary), "EX", 3600); // 1 hour cache
   }
+  // If no raw (because of cache), fetch it again just to get _id
+  if (!raw) {
+    raw = await Itinerary.findOne({ slug });
+    if (!raw) return notFound();
+  }
+
+  // ✅ Fetch related itineraries using raw._id
+  const relatedRaw = await Itinerary.find({
+    _id: { $ne: raw._id }, // exclude current
+    city: raw.city,
+    type: raw.type,
+  })
+    .limit(3)
+    .lean();
+
+  const related = relatedRaw.map(serializeItinerary);
+
   const {
     title,
     city,
@@ -62,7 +80,7 @@ export default async function ItineraryDetailPage(props) {
     mediaType,
     creator,
     createdAt,
-    highlights
+    highlights,
   } = itinerary;
 
   return (
@@ -184,6 +202,9 @@ export default async function ItineraryDetailPage(props) {
         </ul>
       )} */}
         {/* <div className="mt-10 text-sm text-white/60">✍️  ✍️Posted by: {creator}</div> */}
+        <div>
+          <RelatedItineraries items={related} />
+        </div>
         <div className="mt-10 text-sm text-white/60">
           <CreatorBadge creator="Norah Bird" />
         </div>
