@@ -179,5 +179,12 @@ export async function deleteItem(id) {
 
   // Delete the item from DB
   await Post.findByIdAndDelete(id);
+  // 🧠 Invalidate Redis Cache
+  await redis.del("items:all"); // main feed
+  await redis.del(`category:${item.category?.toLowerCase()}`); // category-specific cache
+
+  console.log(
+    `🧹 Redis cache cleared: items:all, category:${item.category?.toLowerCase()}`
+  );
   return { success: true, message: "Item and file deleted." };
 }

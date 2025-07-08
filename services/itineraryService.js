@@ -150,6 +150,11 @@ export async function deleteItinerary(id) {
 
   // Delete from DB
   await Itinerary.findByIdAndDelete(id);
+
+  // ✅ Invalidate Redis
+  await redis.del("itineraries:all");
+  await redis.del(`itinerary:${itinerary.slug}`);
+
   return { success: true, message: "Itinerary and media deleted." };
 }
 
@@ -175,5 +180,9 @@ export async function deleteItineraryBySlug(slug) {
   }
 
   await Itinerary.findOneAndDelete({ slug });
+  //invalidate from cache
+  await redis.del("itineraries:all");
+  await redis.del(`itinerary:${slug}`);
+
   return { success: true, message: "Itinerary and media deleted." };
 }
