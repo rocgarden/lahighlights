@@ -61,6 +61,15 @@ export default function MyItineraries() {
                 <p className="text-sm text-indigo-900">
                   Duration and Type: {itinerary.duration} • {itinerary.type}
                 </p>
+                <div>
+                <span className="text-indigo-900 ml-auto">
+                  🕒 Created:{" "}
+                  {new Date(itinerary.createdAt).toLocaleString(undefined, {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  })}
+                </span>
+                </div>
               </div>
               <div className="flex  gap-4 mt-2">
                 <Link

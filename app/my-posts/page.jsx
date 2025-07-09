@@ -82,11 +82,22 @@ const MyPosts = () => {
               >
                 <div className="flex  justify-between items-start">
                   <div>
-                    <h2 className="text-xl font-semibold">Name: {item.title}</h2>
+                    <h2 className="text-xl font-semibold">
+                      Name: {item.title}
+                    </h2>
                     <p className="text-md text-indigo-900 font-bold">
                       Section: {item.section}
                     </p>
-                    <p className="text-sm">Description:{item.content}</p>
+                    <p className="text-sm">
+                      <strong>Description:</strong>{item.content}
+                    </p>
+                    <span className="text-indigo-900 ml-auto">
+                      🕒 Created:{" "}
+                      {new Date(item.createdAt).toLocaleString(undefined, {
+                        dateStyle: "medium",
+                        timeStyle:"short"
+                      })}
+                    </span>
                   </div>
                   <div className="space-x-2">
                     <Link
