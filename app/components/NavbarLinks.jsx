@@ -30,6 +30,22 @@ export default function NavbarLinks({ onClick }) {
           Featured Places
         </Link>
       </li>
+      <li>
+        <Link href="/privacy-policy" onClick={onClick}>
+          Privacy Policy
+        </Link>
+      </li>
+      <li>
+        <Link href="/about" onClick={onClick}>
+          About
+        </Link>
+      </li>
+      <li>
+        <Link href="/contact" onClick={onClick}>
+          Contact
+        </Link>
+      </li>
+
       {session?.user?.isAdmin && (
         <>
           <li>
