@@ -1,13 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from 'react';
+
 // import { MapPin, Globe } from "lucide-react";
 
 
-export default function PostCard({ post }) {
+export default function PostCard({ post, showDescription = false }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   return (
-    <div className="relative h-64 rounded-lg overflow-hidden group shadow border border-white/10">
+    <div className="relative h-fit rounded-lg overflow-hidden group shadow-lg  border-white/10 bg-white/50">
       {/* Background Image or Video */}
+      <div className="relative h-64 w-full">
       {post.videoUrl ? (
         <video
           src={post.videoUrl}
@@ -67,7 +72,7 @@ export default function PostCard({ post }) {
               {/* <MapPin className="w-5 h-5" /> */}
             </a>
           )}
-          <div>
+          {/* <div> */}
             {/* 🌎{" "}
             {post.website && (
               <a
@@ -82,6 +87,22 @@ export default function PostCard({ post }) {
           </div>
         </div>
       </div>
+      {/* Optional Description for category pages */}
+      {showDescription && post.content && (
+        <div className="p-4 text-black text-sm text-justify border-t border-white/30">
+ <p className={`${isExpanded ? '' : 'line-clamp-2'} transition-all duration-300`}>
+      {post.content}
+    </p>
+         {post.content.length > 100 && (
+          <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="mt-2 text-blue-300 underline text-xs"
+         >
+        {isExpanded ? 'Read less ▲' : 'Read more ▼'}
+        </button>
+          )}
+      </div>
+      )}
     </div>
   );
 }

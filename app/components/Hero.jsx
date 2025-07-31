@@ -4,7 +4,7 @@ import CarouselWithText from "./CarouselWithText";
 // components/Hero.js
 export default function Hero({ slides }) {
   return (
-    <div className="moving-max-gradient px-4 pt-16  bg-gradient-to-r from-pink-900 via-pink-500 to-rose-400 bg-size-200 animate-gradient-x text-white">
+    <div className=" px-4 pt-16  bg-gradient-to-r from-pink-900 via-pink-500 to-rose-400 bg-size-200 animate-gradientMove text-white">
       <div className="max-w-7xl mx-auto ">
         <div className="flex flex-col md:flex-row items-center gap-1">
           {/* Left Column */}

@@ -60,13 +60,14 @@ export default async function CategoryPage({ params }) {
         </h1>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
           {posts.map((post) => (
-            <PostCard key={post._id} post={post} />
+            <PostCard key={post._id} post={post} showDescription/>
           ))}
         </div>
         <div className="mt-36 text-sm text-black/60 border-t border-black/20 pt-6">
           ⚠️ <strong>Disclaimer:</strong> This post is for inspiration only.
           Always check ahead for availability, allergens, accessibility, and
-          other personal needs. Use at your own risk. See{" "}
+          other personal needs. Use of these names, trademarks, and
+          brands does not imply endorsement. Use at your own risk. See{" "}
           <Link href="/terms">Terms.</Link>
         </div>{" "}
       </section>

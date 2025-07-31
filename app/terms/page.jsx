@@ -18,8 +18,8 @@ export default function TermsPage() {
           of this content.
         </li>
       </ul>
-      ## Terms of Use & Disclaimer **Effective Date:** \[Insert Date] Welcome to
-      \[Your Site Name] ("we," "our," or "us"). By using our website, you agree
+      ## Terms of Use & Disclaimer **Effective Date:** \July 28, 2025 Welcome to
+      \Norah Bird ("we," "our," or "us"). By using our website, you agree
       to these Terms of Use and Disclaimer. Please read them carefully. --- ###
       1. Informational Purposes Only All content provided on this site is for
       **general informational purposes** only. Itineraries, recommendations, and
@@ -41,7 +41,7 @@ export default function TermsPage() {
       activities** may involve risks—always consult relevant authorities and use
       appropriate precautions. ### 6. Intellectual Property All text, images,
       designs, and other content on this site are the **intellectual property of
-      \[Your Name or Company]** unless otherwise stated. Unauthorized
+      Norah Bird** unless otherwise stated. Unauthorized
       reproduction or distribution is prohibited. ### 7. Modifications We may
       update these terms at any time without prior notice. Continued use of the
       site constitutes your acceptance of any changes. ### 8. Governing Law
@@ -50,10 +50,10 @@ export default function TermsPage() {
       owners. All company, product, and service names used in this website are
       for identification purposes only. Use of these names, trademarks, and
       brands does not imply endorsement. --- If you have any questions about
-      these terms, please contact us at \[your email address]. Thank you for
+      these terms, please contact us at \contact@norahbird.com. Thank you for
       visiting!
-      <p className="text-sm text-black/60">
-        By using this site, you acknowledge and accept these terms.
+      <p className="text-sm text-black/60 text-center">
+        ***By using this site, you acknowledge and accept these terms.***
       </p>
     </main>
   );

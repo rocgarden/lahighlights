@@ -1,3 +1,4 @@
+import Breadcrumb from "../components/Breadcrumb";
 export const metadata = {
   title: "Privacy Policy | LA Highlights",
   description:
@@ -7,13 +8,19 @@ export const metadata = {
 export default function PrivacyPolicy() {
   return (
     <main className="max-w-3xl mx-auto my-20 px-6 py-10 text-gray-800">
+        <Breadcrumb
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Privacy"}
+              ]}
+            />  
       <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
 
       <p className="mb-4">Last updated: July 2025</p>
 
       <p className="mb-4">
-        LA Highlights ("we", "our", or "us") operates the website
-        lahighlights.vercel.app and may later migrate to norahbird.com.
+        Norah Bird | LA Highlights ("we", "our", or "us") operates the website
+        norahbird.com.
       </p>
 
       <h2 className="text-xl font-semibold mt-6 mb-2">
@@ -25,7 +32,7 @@ export default function PrivacyPolicy() {
           visit our site.
         </li>
         <li>
-          <strong>User Submissions:</strong> If you create or submit content, we
+          <strong>User Submissions:</strong> If you create or submit content, including any form of communication, we
           may store your name, email, and any information you provide.
         </li>
         <li>

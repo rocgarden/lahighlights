@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8">
         {/* Brand / About */}
         <div>
-          <h2 className="text-xl font-semibold mb-3">LOS ANGELES HIGHLIGHTS</h2>
+          <h2 className="text-xl font-semibold mb-3">NORAH BIRD | Los Angeles Highlights</h2>
           <p className="text-sm text-white/70">
             Discover top spots, hidden gems, and local favorites in LA.
           </p>
@@ -36,14 +36,24 @@ export default function Footer() {
                 Featured
               </Link>
             </li>
+              <li>
+              <Link href="/signin" className="hover:underline">
+                Submit Post
+              </Link>
+            </li>
             <li>
               <Link href="/terms" className="hover:underline">
                 Terms
               </Link>
             </li>
-            <li>
-              <Link href="/signin" className="hover:underline">
-                Submit Post
+              <li>
+              <Link href="/about" className="hover:underline">
+                About
+              </Link>
+            </li>
+              <li>
+              <Link href="/privacy-policy" className="hover:underline">
+                Privacy Policy
               </Link>
             </li>
           </ul>
@@ -64,7 +74,7 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="mailto:contact@example.com" className="hover:underline">
+              <a href="mailto:hello@norahbird.com" className="hover:underline">
                 Email Us
               </a>
             </li>
@@ -74,16 +84,17 @@ export default function Footer() {
 
       {/* Bottom line */}
       <div className="mt-10 text-center text-xs text-white/40 border-t border-white/20 pt-6">
-        &copy; {new Date().getFullYear()} Los Angeles Highlights. All rights
+        &copy; {new Date().getFullYear()} Norah Bird | Los Angeles Highlights. All rights
         reserved.
       </div>
-      <div className="text-center text-xs text-white/40">Norah Bird</div>
+      {/* <div className="text-center text-xs text-white/40">Norah Bird</div> */}
       <div className="mt-10 text-xs text-white/40 border-t border-white/20 pt-3">
         <strong>Disclaimer:</strong> All content provided on this site is for
         general informational purposes only. Always check ahead for
         availability, allergens, accessibility, and other personal needs. Use at
         your own risk. All trademarks and brand names are the property of their
-        respective owners. See{" "}
+        respective owners. Use of these names, trademarks, and
+        brands does not imply endorsement. See{" "}
         <Link href="/terms" className="hover:underline">
           Terms
         </Link>

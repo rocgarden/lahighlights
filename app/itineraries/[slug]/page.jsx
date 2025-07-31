@@ -202,7 +202,7 @@ export default async function ItineraryDetailPage(props) {
         </ul>
       )} */}
         {/* <div className="mt-10 text-sm text-white/60">✍️  ✍️Posted by: {creator}</div> */}
-        <div>
+        <div className="align-center">
           <RelatedItineraries items={related} />
         </div>
         <div className="mt-10 text-sm text-white/60">

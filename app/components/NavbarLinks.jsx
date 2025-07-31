@@ -12,36 +12,36 @@ export default function NavbarLinks({ onClick }) {
       {session?.user?.isAdmin && (
         <li className="text-xs text-white-500 px-2 py-1">
           🛠 Logged in as:{" "}
-          <span className="font-medium">{session.user.email}</span>
+          <span className="font-medium"><strong>{session.user.email}</strong></span>
         </li>
       )}
       <li>
-        <Link href="/" onClick={onClick}>
+        <Link href="/" onClick={onClick} className="hover:text-white/90 p-2 rounded-lg hover:border hover:bg-white/30">
           Home
         </Link>
       </li>
       <li>
-        <Link href="/itineraries" onClick={onClick}>
+        <Link href="/itineraries" onClick={onClick} className="hover:text-white/90 p-2 rounded-lg hover:border hover:bg-white/30">
           Itineraries
         </Link>
       </li>
-      <li>
+      {/* <li>
         <Link href="/Featured" onClick={onClick}>
           Featured Places
         </Link>
-      </li>
-      <li>
-        <Link href="/privacy-policy" onClick={onClick}>
+      </li> */}
+      {/* <li>
+        <Link href="/privacy-policy" onClick={onClick} className="hover:text-indigo-500">
           Privacy Policy
         </Link>
-      </li>
+      </li> */}
       <li>
-        <Link href="/about" onClick={onClick}>
+        <Link href="/about" onClick={onClick} className="hover:text-white/90 p-2 rounded-lg hover:border hover:bg-white/30">
           About
         </Link>
       </li>
       <li>
-        <Link href="/contact" onClick={onClick}>
+        <Link href="/contact" onClick={onClick} className="hover:text-white/90 p-2 rounded-lg hover:border hover:bg-white/30">
           Contact
         </Link>
       </li>
@@ -83,7 +83,7 @@ export default function NavbarLinks({ onClick }) {
       )}
       {!session && status !== "loading" && (
         <li>
-          <Link href="/signin" onClick={onClick}>
+          <Link href="/signin" onClick={onClick} className="hover:text-white/90 p-2 rounded-lg hover:border hover:bg-white/30">
             Sign In
           </Link>
         </li>

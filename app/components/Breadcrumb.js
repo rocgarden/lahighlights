@@ -12,7 +12,7 @@ export default function Breadcrumb({ items }) {
   // If manual items are provided, use them
   if (items && items.length > 0) {
     return (
-      <nav className="text-sm text-gray-500 mb-4">
+      <nav className="text-sm text-gray-500 mb-4 px-2">
         {items.map((item, index) => (
           <span key={index}>
             {item.href ? (

@@ -27,7 +27,7 @@ export default function Navbar() {
           // On home and not scrolled: semi-transparent over hero
           "bg-white/10 backdrop-blur-md text-white": isHome && !isScrolled,
           // Otherwise: dark background
-          "bg-black/80 text-white shadow-md": !isHome || isScrolled,
+          "bg-black/50 text-white shadow-md": !isHome || isScrolled,
           // Optional: adjust padding if you like
           "py-4": !isScrolled,
           "py-2": isScrolled,
@@ -53,18 +53,18 @@ export default function Navbar() {
 
       {/* Hamburger */}
       <button
-        className="md:hidden flex flex-col justify-center items-center gap-[4px]"
+        className="md:hidden flex flex-col justify-center items-center gap-[4px] p-1 cursor-pointer rounded hover:bg-white/50 "
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle menu"
       >
-        <div className="w-6 h-[2px] bg-white" />
-        <div className="w-6 h-[2px] bg-white" />
-        <div className="w-6 h-[2px] bg-white" />
+        <div className="w-6 h-[2px] bg-white rounded-4xl group-hover:bg-indigo-900 transition-all duration-300" />
+        <div className="w-6 h-[2px] bg-white rounded-4xl group-hover:bg-indigo-900 transition-all duration-300" />
+        <div className="w-6 h-[2px] bg-white rounded-4xl group-hover:bg-indigo-900 transition-all duration-300" />
       </button>
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <ul className="absolute top-full left-0 w-full bg-black/90 text-white flex flex-col gap-6 p-6 md:hidden">
+        <ul className="absolute top-full left-0 w-full bg-black/70 text-white flex flex-col gap-6 p-6 md:hidden">
           <NavbarLinks onClick={() => setIsOpen(false)} />
         </ul>
       )}

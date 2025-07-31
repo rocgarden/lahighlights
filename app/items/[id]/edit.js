@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useDropUploader } from "@/hooks/useDropUploader";
 //import { useSession } from "next-auth/react";
-import { useState, useEffect } from "react";
+import { useState, useSession } from "react";
 
 const EditItem = ({ item }) => {
   const { data: session } = useSession();

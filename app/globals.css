@@ -20,21 +20,11 @@
     color: transparent;
     animation: gradientMove 4s linear infinite;
   };
-    .outline-category {
-      -webkit-text-stroke-width: 2px;
-      -webkit-text-stroke-color: #c34b4b;
-      /* -webkit-text-fill-color: #de6868; */
-      /* color: #de6868; */
-    }
-}
-
-@keyframes gradientMove {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  100% {
-    background-position: 100% 50%;
+  .outline-category {
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #c34b4b;
+    /* -webkit-text-fill-color: #de6868; */
+    /* color: #de6868; */
   }
 }
 
@@ -69,4 +59,31 @@ body {
   /* Outline thickness and color */
   -webkit-text-fill-color: transparent;
   color: transparent;
+}
+
+@theme {
+  --animate-wiggle: wiggle 1s ease-in-out infinite;
+  --animate-gradientMove: gradientMove 5s ease-in-out infinite;
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(-3deg);
+    }
+
+    50% {
+      transform: rotate(3deg);
+    }
+  };
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+  
+      100% {
+        background-position: 0% 100%;
+      }
+    }
 }
