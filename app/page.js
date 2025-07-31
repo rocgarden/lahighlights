@@ -20,7 +20,7 @@ export const metadata = {
     "community travel picks",
   ],
   openGraph: {
-    title: "Los Angeles Highlights | NorahBird",
+    title: "NorahBird | Los Angeles Highlights",
     description:
       "Explore creative posts from our community, organized by category.",
     url: "https://norahbird.com",
@@ -37,7 +37,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Los Angeles Highlights | Norah Bird",
+    title: "Norah Bird | Los Angeles Highlights",
     description: "Explore creative posts from our community.",
     creator: "Norah Bird",
     site: "NorahBird",
@@ -65,11 +65,11 @@ export default async function Home() {
     const structuredData = {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      name: "LA Highlights",
-      url: "https://lahighlights.vercel.app/",
+      name: "Norah Bird | LA Highlights",
+      url: "https://norahbird.com",
       potentialAction: {
         "@type": "SearchAction",
-        target: "https://lahighlights.vercel.app/search?q={search_term_string}",
+        target: "https://norahbird.com/search?q={search_term_string}",
         "query-input": "required name=search_term_string",
       },
     };
@@ -99,7 +99,7 @@ export default async function Home() {
         <section className="block sm:hidden aspect-[4/3] max-w-6xl mx-auto overflow-hidden rounded-lg shadow-lg">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={heroItems[0]?.imageUrl}
+            src={heroItems[1]?.imageUrl}
             alt={heroItems[0]?.title || "Los Angeles Hot Spot Image"}
             className="object-cover w-full h-full rounded-lg"
             width={1200}

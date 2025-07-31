@@ -23,10 +23,15 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const name =  params?.name || 'Category';
+  const name = params?.name || 'Category';
+  const capitalized = name.charAt(0).toUpperCase() + name.slice(1);
+
   return {
-    title: `${name.charAt(0).toUpperCase() + name.slice(1)} | Category | MyApp`,
-    description: `Explore all posts in the ${name} category.`,
+    title: `${capitalized} | Category | Norah Bird`,
+    description: `Explore all posts in the ${capitalized} category.`,
+     alternates: {
+      canonical: `https://norahbird.com/category/${name}`,
+    },
   };
 }
 

@@ -9,7 +9,7 @@ export default function StructuredData({ category, items }) {
     itemListElement: items.map((item, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      url: `https://lahighlights.vercel.app/itineraries/${item.slug}`,
+      url: `https://norahbird.com/itineraries/${item.slug}`,
       name: item.title,
     })),
   };

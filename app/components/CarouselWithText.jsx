@@ -4,30 +4,6 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import FadeInSection from "./FadeInSection";
 
-// const slides = [
-//   {
-//     image:
-//       "https://s3.amazonaws.com/shecodesio-production/contests/banners/000/000/062/original/Most_meaningful_song_Newsletter.png?1732790459",
-//     title: "🎶 Song 1",
-//     subtitle: "Create a page inspired by your favorite song.",
-//     link: "/contests",
-//   },
-//   {
-//     image:
-//       "https://s3.amazonaws.com/shecodesio-production/contests/banners/000/000/062/original/Most_meaningful_song_Newsletter.png?1732790459",
-//     title: "❌Song 2",
-//     subtitle: "Create a page inspired by your favorite song.",
-//     link: "/contests",
-//   },
-//   {
-//     image:
-//       "https://s3.amazonaws.com/shecodesio-production/stories/pictures/000/000/337/original/Untitled_%281%29.png?1723131115",
-//     title: "☁️ Song 3",
-//     subtitle: "Create a page inspired by your favorite song.",
-//     link: "/contests",
-//   },
-// ];
-
 export default function CarouselWithText({ slides}) {
   const [current, setCurrent] = useState(0);
   const [visible, setVisible] = useState(true);

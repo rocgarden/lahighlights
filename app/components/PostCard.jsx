@@ -27,7 +27,7 @@ export default function PostCard({ post, showDescription = false }) {
       ) : (
         <Image
           src={post.imageUrl || "/fallback.jpg"}
-          alt={post.title}
+          alt={post.title + " - Norah Bird Travel"}
           // className="absolute inset-0 object-cover w-full h-full"
           fill
           className="object-cover"

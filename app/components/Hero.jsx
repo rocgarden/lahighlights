@@ -63,16 +63,16 @@ export default function Hero({ slides }) {
           {/* Text Section */}
           {/* <div className="md:w-1/2 flex flex-col justify-between">
                   <small className="text-sm text-gray-600 mb-1">
-                    From April 1, 2025
+                    From April 1, 2020
                   </small>
                   <h2 className="text-xl font-semibold mb-2">
-                    🎶 Song Challenge
+                    🎶 
                   </h2>
                   <h3 className="text-md mb-4">
-                    Create a page inspired by your favorite song.
+                     Name favorite song.
                   </h3>
                   <a
-                    href="/contests"
+                    href="/songs"
                     className="inline-block bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow hover:bg-blue-700 transition"
                   >
                     Open to votes

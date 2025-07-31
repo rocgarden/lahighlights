@@ -15,9 +15,9 @@ export default async function AllItinerariesPage() {
     const itineraries = await getItineraries();
   return (
     <div>
-    <div className=" ">
+    <div>
    {/* Gradient background for small screens only */}
-      <div className="mt-20 bg-size-200 sm:hidden bg-gradient-to-r from-pink-900 via-indigo-500 to-rose-400 animate-gradientMove  p-4 text-white shadow-xl">
+      <div className="bg-size-200 sm:hidden bg-gradient-to-r from-pink-900 via-indigo-500 to-rose-400 animate-gradientMove text-white shadow-xl  pt-20 pb-4 px-4">
          <Breadcrumb
               items={[
                 { label: "Home", href: "/" },

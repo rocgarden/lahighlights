@@ -11,13 +11,13 @@ export default function StructuredItineraryData({ itinerary }) {
     "@type": "Product",
     name: itinerary.title,
     description: itinerary.description || itinerary.type,
-    image: itinerary.fileUrl || "https://lahighlights.vercel.app/default.jpg",
+    image: itinerary.fileUrl || "https://norahbird.com/default.jpg",
     offers: {
       "@type": "Offer",
       price: itinerary.price || "0", // If free
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
-      url: `https://lahighlights.vercel.app/itineraries/${itinerary.slug}`,
+      url: `https://norahbird.com/itineraries/${itinerary.slug}`,
     },
     brand: {
       "@type": "Brand",

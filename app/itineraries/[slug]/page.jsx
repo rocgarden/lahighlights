@@ -88,6 +88,7 @@ export default async function ItineraryDetailPage(props) {
       <Head>
         {" "}
         <StructuredItineraryData itinerary={itinerary} />
+         <link rel="canonical" href={`https://norahbird.com/itineraries/${slug}`}/>
       </Head>
       <section className=" max-w-3xl mx-5 sm:mx-auto bg-red-400 px-4  sm:px-6 mt-16 sm:mt-24 mb-4 pt-8 sm:pt-10 pb-12 text-white rounded-lg">
         <Breadcrumb
