@@ -98,6 +98,13 @@ const MyPosts = () => {
                         timeStyle:"short"
                       })}
                     </span>
+                      <span className="text-indigo-900 ml-auto">
+                     {" "} 📆 Updated:
+                      {new Date(item.updatedAt).toLocaleString(undefined, {
+                        dateStyle: "medium",
+                        timeStyle:"short"
+                      })}
+                    </span>
                   </div>
                   <div className="space-x-2">
                     <Link

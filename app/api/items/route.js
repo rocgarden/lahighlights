@@ -27,6 +27,7 @@ export async function GET(req) {
         phoneLink: item.phoneLink,
         city: item.city || item.placeData?.city || "",
         createdAt: item.createdAt,
+        updatedAt: item.updatedAt,
         section: item.section,
         mediaType: item.mediaType,
         creator: item.creator,

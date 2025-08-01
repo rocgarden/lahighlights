@@ -27,26 +27,31 @@ export const useDropUploader = (initialUrl = null) => {
 
     try {
       // Request S3 signed URL
-      const res = await fetch("/api/upload", {
+      const res = await fetch("/api/upload-image", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ filename: file.name, fileType: file.type }),
-      });
-
-      const { uploadUrl, fileUrl } = await res.json();
-
-      // Upload directly to S3
-      const uploadRes = await fetch(uploadUrl, {
-        method: "PUT",
-        headers: { "Content-Type": file.type },
+        headers: {
+          "Content-Type": file.type,
+        },
         body: file,
       });
 
-      if (!uploadRes.ok) {
+      if (!res.ok) {
         throw new Error("Upload failed");
       }
 
-      const mediaType = file.type.startsWith("video") ? "video" : "image";
+      const { fileUrl, mediaType } = await res.json();
+
+      // Upload directly to S3
+      // const uploadRes = await fetch(uploadUrl, {
+      //   method: "PUT",
+      //   headers: { "Content-Type": file.type },
+      //   body: file,
+      // });
+
+      // if (!uploadRes.ok) {
+      //   throw new Error("Upload failed");
+      // }
+
       setFileInfo({ fileUrl, mediaType });
     } catch (err) {
       console.error("Upload error:", err);
@@ -59,7 +64,7 @@ export const useDropUploader = (initialUrl = null) => {
     maxFiles: 1,
     maxSize: MAX_FILE_SIZE,
     accept: {
-      "image/*": [".jpeg", ".jpg", ".png"],
+      "image/*": [".jpeg", ".jpg", ".png", ".webp"],
       "video/*": [".mp4", ".mov", ".webm"],
     },
   });
