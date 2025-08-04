@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+
 export default function MyItineraries() {
   const { data: session, status } = useSession();
   const [itineraries, setItineraries] = useState([]);
@@ -80,6 +81,12 @@ export default function MyItineraries() {
                     {" "}
                     View
                   </button>
+                </Link>
+                <Link
+                  href={`/itineraries/${itinerary.slug}/edit`}
+                  className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
+                >
+                  Edit
                 </Link>
                 <button
                   onClick={() => handleDelete(itinerary._id)}

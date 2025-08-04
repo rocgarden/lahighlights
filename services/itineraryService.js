@@ -112,13 +112,30 @@ export async function getItineraryById(id) {
 
 export async function getItineraryBySlug(slug) {
   await connectDB();
-  return await Itinerary.findOne({slug});
+  const raw = await Itinerary.findOne({ slug });
+  if (!raw) throw new Error("Itinerary not found");
+
+  const itinerary = serializeItinerary(raw);
+  //return await Itinerary.findOne({slug});
+  return itinerary; // ✅ Now ready for client components
 }
 
-export async function updateItinerary(id, data, slug) {
+export async function updateItinerary(id, data) {
   await connectDB();
-  return await Itinerary.findByIdAndUpdate(id, data,slug,  { new: true });
+  const updateFields = {
+  title: data.title,
+  description: data.description,
+  city: data.city,
+  duration: data.duration,
+  type: data.type,
+  fileUrl: data.fileUrl,
+  mediaType: data.mediaType,
+  highlights: data.highlights,
+};
+
+  return await Itinerary.findByIdAndUpdate(id, updateFields, { new: true });
 }
+
 
 // Extract S3 object key from URL
 function getS3KeyFromUrl(url) {

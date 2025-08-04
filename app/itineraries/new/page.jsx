@@ -4,6 +4,8 @@ import { useSession } from "next-auth/react";
 import { useDropUploader } from "@/hooks/useDropUploader";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { activityOptions, timeOfDayOptions,  getMaxDays as getMaxDaysFromDuration,
+ autoFillTimeOfDay  } from "@/lib/utils/itinerariesHelpers";
 
 export default function NewItineraryPage() {
   const router = useRouter();
@@ -71,25 +73,29 @@ export default function NewItineraryPage() {
   };
 
 
-  const getMaxDays = () => {
-    return durationDayMap[formData.duration] || 1;
-  };
-
+  // const getMaxDays = () => {
+  //   return durationDayMap[formData.duration] || 1;
+  // };
+const getMaxDays = () => getMaxDaysFromDuration(formData.duration);
 
   const handleHighlightChange = (index, field, value) => {
     const newHighlights = [...formData.highlights];
     newHighlights[index][field] = value;
 
     // Automatically set timeOfDay based on activity
+    // if (field === "activity") {
+    //   const lowerCaseActivity = value.toLowerCase();
+    //   for (let activity in activityTimeMapping) {
+    //     if (lowerCaseActivity.includes(activity)) {
+    //       newHighlights[index].timeOfDay = activityTimeMapping[activity];
+    //       break;
+    //     }
+    //   }
+    // }
     if (field === "activity") {
-      const lowerCaseActivity = value.toLowerCase();
-      for (let activity in activityTimeMapping) {
-        if (lowerCaseActivity.includes(activity)) {
-          newHighlights[index].timeOfDay = activityTimeMapping[activity];
-          break;
-        }
-      }
+       newHighlights[index].timeOfDay = autoFillTimeOfDay(value);
     }
+
 
     setFormData((prev) => ({
       ...prev,
@@ -294,22 +300,30 @@ export default function NewItineraryPage() {
           </select>
           {/* Activity Input */}
           <select
-            className="w-full p-2 bg-white/10 rounded"
-            value={highlight.activity}
-            onChange={(e) =>
-              handleHighlightChange(index, "activity", e.target.value)
-            }
+              className="text-white text-sm border p-2 space-x-4 width-auto"
+              value={highlight.activity}
+              onChange={(e) => handleHighlightChange(index, "activity", e.target.value)}
+            >
+              <option value="">Select Activity</option>
+              {activityOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option.charAt(0).toUpperCase() + option.slice(1)}
+                </option>
+              ))}
+          </select>
+          
+          {/* Time of Day Dropdown */}
+          <select
+            className="text-white text-sm border p-2 mx-3 width-auto"
+            value={highlight.timeOfDay}
+            onChange={(e) => handleHighlightChange(index, "timeOfDay", e.target.value)}
           >
-            <option value="">Select Activity</option>
-            <option value="hike">Hike</option>
-            <option value="walk">Walk</option>
-            <option value="lunch">Lunch</option>
-            <option value="dinner">Dinner</option>
-            <option value="party">Party</option>
-            <option value="themePark">Theme Park</option>
-            <option value="museum">Museum</option>
-            <option value="event">Special Event</option>
-            <option value="movie">Movie</option>
+            <option value="">Select Time of Day</option>
+            {timeOfDayOptions.map((option) => (
+              <option key={option} value={option}>
+                {option.charAt(0).toUpperCase() + option.slice(1)}
+              </option>
+            ))}
           </select>
 
           {/* Place Input */}
@@ -321,21 +335,6 @@ export default function NewItineraryPage() {
               handleHighlightChange(index, "place", e.target.value)
             }
           />
-
-          {/* Time of Day Dropdown */}
-          <select
-            className="w-full p-2 bg-white/10 rounded"
-            value={highlight.timeOfDay || ""}
-            onChange={(e) =>
-              handleHighlightChange(index, "timeOfDay", e.target.value)
-            }
-          >
-            <option value="">Select Time of Day</option>
-            <option value="morning">Morning</option>
-            <option value="afternoon">Afternoon</option>
-            <option value="evening">Evening</option>
-            <option value="night">Night</option>
-          </select>
 
           <button
             type="button"

@@ -10,7 +10,7 @@ import { getAuthSession } from "@/lib/auth";
 import redis from "@/lib/redis";
 
 export async function GET(_, { params }) {
-  const itinerary = await getItineraryById(params.id);
+  const itinerary = await getItineraryBySlug(params.slug);
   if (!itinerary) {
     return new Response("Itinerary not found", { status: 404 });
   }
@@ -25,7 +25,7 @@ export async function PUT(req, { params }) {
        status: 403,
      });
   };
-  const itinerary = await getItineraryBySlug(params.slug);
+  const itinerary = await getItineraryById(params.id);
   if (!itinerary) {
     return new Response(JSON.stringify({ error: "Itinerary not found" }), {
       status: 404,
@@ -39,7 +39,12 @@ export async function PUT(req, { params }) {
   }
   
   const data = await req.json();
-  const updated = await updateItinerary(params.slug, data);
+  const updated = await updateItinerary(params.id, data);
+
+    // ✅ Clear Redis cache after successful update
+  await redis.del("itineraries:all");
+  await redis.del(`itinerary:${itinerary.slug}`);
+
   return Response.json(updated);
 }
 
