@@ -98,11 +98,18 @@ export default async function ItineraryDetailPage(props) {
             { label: title }, // current page
           ]}
         />
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
+         {/* <div className=" flex flex-wrap gap-3 mb-2 text-sm">
+          <p className="text-base sm:text-lg text-white/80 ">📍 {city}</p>
+          <span className="text-white/60 ml-auto">
+            🕒 {new Date(createdAt).toLocaleDateString()}
+          </span>
+        </div>  */}
+        <div className="hidden md:block">
+        <h1 className=" text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
           Itinerary: {title}
         </h1>{" "}
         <p className="text-base sm:text-lg text-white/80 mb-4">📍 {city}</p>
-        <div className="flex flex-wrap gap-3 mb-6 text-sm">
+        <div className=" flex flex-wrap gap-3 mb-6 text-sm">
           <span className="bg-blue-600/80 px-3 py-1 rounded-full">
             ⏳ {duration}
           </span>
@@ -113,21 +120,53 @@ export default async function ItineraryDetailPage(props) {
             🕒 {new Date(createdAt).toLocaleDateString()}
           </span>
         </div>
-        {fileUrl && (
-          <div className="mb-6 w-full sm:w-3/4 md:w-2/3 lg:w-1/2 mx-auto rounded-lg overflow-hidden shadow-lg">
-            {mediaType === "video" ? (
-              <VideoPlayer src={fileUrl} />
-            ) : (
-              <img
-                src={fileUrl}
-                alt={title}
-                className="w-full h-auto object-cover"
-              />
-            )}
-          </div>
-        )}
-        <article className="text-white/90 leading-relaxed mb-4 text-base sm:text-lg whitespace-pre-wrap">
+        </div>
+{fileUrl && mediaType !== "video" && (
+  <div className="-mx-4 sm:-mx-6 mb-6">
+    <div className="relative h-[250px] sm:h-[300px] md:h-[400px] overflow-hidden">
+      <img
+        src={fileUrl}
+        alt={title}
+        className="w-full h-full object-cover"
+      />
+      {/* Bottom overlay */}
+      <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-black/90 to-black/30" />
+                
+      {/* Description shown only on md/large screens over image */}
+       <div className="hidden sm:block absolute bottom-4 left-4 sm:left-6 text-white z-10 max-w-[75%]">
+          <article className="text-white/90 leading-relaxed text-base sm:text-lg whitespace-pre-wrap">
+            {description}
+          </article>
+      </div>
+      
+      {/* Title and tags over image */}
+      <div className="lg:hidden absolute bottom-4 left-4 sm:left-6 text-white z-10 ">
+         {/* <article className=" text-white/90 leading-relaxed sm:mb-4 mb-2 text-base sm:text-lg  whitespace-pre-wrap">
           {description}
+        </article> */}
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 drop-shadow">
+          {title}
+        </h1>
+        <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base">
+          <span className="bg-blue-600/80 px-3 py-1 rounded-full">
+            ⏳ {duration}
+          </span>
+          <span className="bg-green-600/80 px-3 py-1 rounded-full capitalize">
+            {getItineraryTypeIcon(type)} {type}
+          </span>
+          <span className="text-white/80">📍 {city}</span>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+         {/* Description shown only on small screens BELOW image */}
+        <article className="sm:hidden text-white/90 leading-relaxed mb-4 text-base sm:text-lg whitespace-pre-wrap">
+          <div> <span className="text-white/60  sm:inline ml-auto text-right">
+          🕒 {new Date(createdAt).toLocaleDateString()}
+        </span></div>{description}
         </article>
         {/* Structured Highlights */}
         <p className="text-md sm:text-lg text-center text-white font-semibold mb-6 mt-6">
