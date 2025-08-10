@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const typeOptions = ["all", "family", "solo", "couple", "general"];
+const typeOptions = ["all", "family", "solo", "couple", "general", "friends"];
 const tagOptions = [
   "all",
   "museum",

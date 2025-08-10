@@ -238,6 +238,9 @@ const getMaxDays = () => getMaxDaysFromDuration(formData.duration);
         <option value="solo">🧍 Solo</option>
         <option value="couple">💕 Couple</option>
         <option value="family">👪 Family</option>
+        <option value="friends">😎 Friends</option>
+        <option value="work">🏢 Office Friendly</option>
+
       </select>
 
       <textarea
@@ -282,7 +285,7 @@ const getMaxDays = () => getMaxDaysFromDuration(formData.duration);
         ⚡️ Highlights- Add 2-3 local highlights per day
       </h3>
       {formData.highlights.map((highlight, index) => (
-        <div key={index} className="space-y-2 mb-4">
+      <div key={index} className="p-4 bg-white/5 rounded-lg space-y-2 mb-6">
           {/* Multiday input */}
           <select
             className="w-full p-2 bg-white/10 rounded"
@@ -298,6 +301,7 @@ const getMaxDays = () => getMaxDaysFromDuration(formData.duration);
               </option>
             ))}
           </select>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Activity Input */}
           <select
               className="text-white text-sm border p-2 space-x-4 width-auto"
@@ -335,6 +339,18 @@ const getMaxDays = () => getMaxDaysFromDuration(formData.duration);
               handleHighlightChange(index, "place", e.target.value)
             }
           />
+          {/*Tip input */}
+          <input
+              type="text"
+              className="w-full p-2 bg-white/10 rounded"
+              placeholder="Pro tip (optional): e.g., Go early to avoid crowds"
+              value={highlight.tip || ""}
+              onChange={(e) =>
+                handleHighlightChange(index, "tip", e.target.value)
+              }
+            />
+          </div>
+
 
           <button
             type="button"

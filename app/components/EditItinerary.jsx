@@ -23,7 +23,7 @@ export default function EditItinerary({itinerary}) {
     city: itinerary.city,
     duration: itinerary.duration,
     type: itinerary.type,
-    highlights: itinerary.highlights || [],
+    highlights: (itinerary.highlights || []).map(h => ({ ...h, tip: h.tip || "" }))
   });
 
   const {
@@ -50,7 +50,7 @@ export default function EditItinerary({itinerary}) {
   const handleAddHighlight = () => {
     setFormData((prev) => ({
       ...prev,
-      highlights: [...prev.highlights, { day: 1, activity: "", place: "", timeOfDay: "" }],
+      highlights: [...prev.highlights, { day: 1, activity: "", place: "", timeOfDay: "", tip:"" }],
     }));
   };
 
@@ -151,6 +151,18 @@ export default function EditItinerary({itinerary}) {
         </select>
 
         </div>
+      </div>
+        <div className="flex gap-4">
+        <div className="flex-1">
+          <label className="font-bold block text-white">Tip:</label>
+          <input
+            value={highlight.tip}
+            onChange={(e) => handleHighlightChange(index, "tip", e.target.value)}
+            placeholder="Tip: (optional)"
+            className="w-full p-2 bg-white/10 shadow border rounded text-white"
+          />
+        </div>
+      
       </div>
 
       <div className="text-right">

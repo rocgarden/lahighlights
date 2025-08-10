@@ -104,7 +104,7 @@ export default async function ItineraryDetailPage(props) {
             🕒 {new Date(createdAt).toLocaleDateString()}
           </span>
         </div>  */}
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
         <h1 className=" text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
           Itinerary: {title}
         </h1>{" "}
@@ -133,14 +133,14 @@ export default async function ItineraryDetailPage(props) {
       <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-black/90 to-black/30" />
                 
       {/* Description shown only on md/large screens over image */}
-       <div className="hidden sm:block absolute bottom-4 left-4 sm:left-6 text-white z-10 max-w-[75%]">
+       <div className="hidden sm:block absolute bottom-4 left-4 sm:left-6 text-white z-10">
           <article className="text-white/90 leading-relaxed text-base sm:text-lg whitespace-pre-wrap">
             {description}
           </article>
       </div>
       
       {/* Title and tags over image */}
-      <div className="lg:hidden absolute bottom-4 left-4 sm:left-6 text-white z-10 ">
+      <div className=" lg:hidden absolute bottom-4 left-4 sm:left-6 text-white z-10 ">
          {/* <article className=" text-white/90 leading-relaxed sm:mb-4 mb-2 text-base sm:text-lg  whitespace-pre-wrap">
           {description}
         </article> */}
@@ -163,7 +163,7 @@ export default async function ItineraryDetailPage(props) {
 )}
 
          {/* Description shown only on small screens BELOW image */}
-        <article className="sm:hidden text-white/90 leading-relaxed mb-4 text-base sm:text-lg whitespace-pre-wrap">
+        <article className="block sm:hidden text-white/90 leading-relaxed mb-4 text-base sm:text-lg whitespace-pre-wrap">
           <div> <span className="text-white/60  sm:inline ml-auto text-right">
           🕒 {new Date(createdAt).toLocaleDateString()}
         </span></div>{description}
@@ -182,6 +182,7 @@ export default async function ItineraryDetailPage(props) {
                 place: h.place,
                 timeOfDay: h.timeOfDay,
                 addressLink: h.addressLink || null,
+                tip: h.tip
               }));
 
             return <DayTimeline key={day} day={day} highlights={filtered} />; // <div key={day} className="mb-4">

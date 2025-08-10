@@ -68,6 +68,11 @@ export default function DayTimeline({ day, highlights }) {
                       {highlight.place}
                     </a>
                   </div>
+                 {highlight.tip && (
+                    <div className="mt-2 text-xs text-white/90 italic">
+                      💡 {highlight.tip}
+                    </div>
+                  )}
                 </div>
               </div>
             ))

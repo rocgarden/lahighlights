@@ -9,6 +9,7 @@ const HighlightSchema = new mongoose.Schema({
     type: String,
     enum: ["morning", "afternoon", "evening", "night"],
   }, // Predefined times of day
+  tip: { type: String, default: "" }, //optional
 });
 
 const ItinerarySchema = new mongoose.Schema({
@@ -29,7 +30,7 @@ const ItinerarySchema = new mongoose.Schema({
     ],
   },
 
-  type: { type: String, enum: ["solo", "couple", "family", "general"] },
+  type: { type: String, enum: ["solo", "couple", "family", "general", "friends", "work"] },
   creator: { type: String, required: true }, // user email or ID
   fileUrl: { type: String }, // media (e.g., image or video)
   mediaType: { type: String, enum: ["image", "video"], default: "image" },
