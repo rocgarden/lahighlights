@@ -21,7 +21,7 @@ export default function NewItineraryPage() {
     city: "",
     duration: "",
     type: "general",
-    highlights: [{ day: 1,activity: "", place: "", timeOfDay: "" }],
+    highlights: [{ day: 1,activity: "", place: "", timeOfDay: "",  }],
   });
 
   const {
@@ -63,7 +63,7 @@ export default function NewItineraryPage() {
         return 1;
       case "weekend":
         return 2;
-      case "3 days":
+      case "3-day":
         return 3;
       case "1 week":
         return 7;
@@ -115,7 +115,7 @@ const getMaxDays = () => getMaxDaysFromDuration(formData.duration);
       ...prev,
       highlights: [
         ...prev.highlights,
-        { day:nextDay ,activity: "", place: "", timeOfDay: "" },
+        { day:nextDay ,activity: "", place: "", timeOfDay: "" , tip: "" },
       ],
     }));
   };
@@ -225,7 +225,7 @@ const getMaxDays = () => getMaxDaysFromDuration(formData.duration);
         <option value="full-day">Full Day</option>
         <option value="24 hours">24 Hours</option>
         <option value="weekend">Weekend</option>
-        <option value="3 days">3 Days</option>
+        <option value="3-day">3 Days</option>
         <option value="1 week">1 Week</option>
       </select>
 

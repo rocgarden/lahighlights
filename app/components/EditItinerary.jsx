@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import { activityOptions, timeOfDayOptions, getMaxDays, autoFillTimeOfDay } from "@/lib/utils/itinerariesHelpers";
 
 
-export default function EditItinerary({itinerary}) {
-     console.log( "editing itinerary:: ",itinerary)
+export default function EditItinerary({ itinerary }) {
+  const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();
   const { data: session } = useSession({
     required: true,
@@ -47,12 +47,14 @@ export default function EditItinerary({itinerary}) {
     };
 
 
-  const handleAddHighlight = () => {
-    setFormData((prev) => ({
-      ...prev,
-      highlights: [...prev.highlights, { day: 1, activity: "", place: "", timeOfDay: "", tip:"" }],
-    }));
+  const handleAddHighlight = (index) => {
+    setFormData((prev) => {
+      const newHighlights = [...prev.highlights];
+      newHighlights.splice(index + 1, 0, { day: 1, activity: "", place: "", timeOfDay: "", tip: "" });
+      return { ...prev, highlights: newHighlights };
+    });
   };
+
 
   const handleRemoveHighlight = (index) => {
     setFormData((prev) => ({
@@ -64,6 +66,13 @@ export default function EditItinerary({itinerary}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const confirmed = window.confirm("Are you sure you want to save and post these changes?");
+    if (!confirmed) return;
+
+  // optional loading indicator
+    setIsSaving(true);
+
+
     const res = await fetch(`/api/itineraries/${itinerary._id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -74,6 +83,8 @@ export default function EditItinerary({itinerary}) {
         mediaType: fileInfo?.mediaType || itinerary.mediaType,
       }),
     });
+
+    setIsSaving(false);
 
     if (res.ok) {
       const updated = await res.json();
@@ -165,15 +176,22 @@ export default function EditItinerary({itinerary}) {
       
       </div>
 
-      <div className="text-right">
-        <button
-          type="button"
-          onClick={() => handleRemoveHighlight(index)}
-          className="text-red-400 hover:text-red-600 text-sm mt-2"
-        >
-          ❌ Remove
-        </button>
-      </div>
+       <div className="text-right space-x-2">
+          <button
+            type="button"
+            onClick={() => handleAddHighlight(index)}
+            className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded transition text-sm"
+          >
+            ➕ Add New Item Below
+          </button>
+          <button
+            type="button"
+            onClick={() => handleRemoveHighlight(index)}
+            className="text-red-400 hover:text-red-600 text-sm"
+          >
+            ❌ Remove Item
+          </button>
+        </div>
     </div>
   ))}
 
@@ -188,9 +206,10 @@ export default function EditItinerary({itinerary}) {
 
     <button
       type="submit"
+      disabled={isSaving}
       className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition"
     >
-      💾 Save Changes
+    {isSaving ? "Saving..." : "💾 Save Changes"}
     </button>
   </div>
 </form>
