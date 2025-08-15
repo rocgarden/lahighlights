@@ -5,7 +5,9 @@ import { useDropUploader } from "@/hooks/useDropUploader";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { activityOptions, timeOfDayOptions,  getMaxDays as getMaxDaysFromDuration,
- autoFillTimeOfDay  } from "@/lib/utils/itinerariesHelpers";
+  autoFillTimeOfDay
+} from "@/lib/utils/itinerariesHelpers";
+import { buildPlaceData } from "@/lib/placeData";
 
 export default function NewItineraryPage() {
   const router = useRouter();
@@ -144,13 +146,16 @@ const getMaxDays = () => getMaxDaysFromDuration(formData.duration);
     return;
   }
 
-
     const creator = session?.user?.email;
+       // ✅ Build placeData from the itinerary's city and highlights
+    const placeData = await buildPlaceData(formData);
+
     const res = await fetch("/api/itineraries", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...formData,
+        placeData,
         creator,
         fileUrl: fileInfo?.fileUrl,
         mediaType: fileInfo?.mediaType,
@@ -333,7 +338,7 @@ const getMaxDays = () => getMaxDaysFromDuration(formData.duration);
           {/* Place Input */}
           <input
             className="w-full p-2 bg-white/10 rounded"
-            placeholder="Place URL(e.g., 'Bear Hill')"
+            placeholder="Place(e.g., 'Bear Hill')"
             value={highlight.place}
             onChange={(e) =>
               handleHighlightChange(index, "place", e.target.value)

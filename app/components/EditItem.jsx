@@ -4,6 +4,8 @@ import { useDropUploader } from "@/hooks/useDropUploader";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { buildPlaceData } from "@/lib/placeData";
+
 const EditItem = ({ item }) => {
   const [submissionStatus, setSubmissionStatus] = useState(null); // null | "success" | "error"
   const [loading, setLoading] = useState(false);
@@ -25,9 +27,13 @@ const EditItem = ({ item }) => {
     section: item.section,
     category: item.category,
     address: item.address,
-    addressLink: item.addressLink
+    addressLink: item.addressLink,
+    phoneNumber: item.phoneNumber || "",
+    phoneLink: item.phoneLink || "",
   });
- console.log( "editing item:: ",{item})
+  
+  const [placeData, setPlaceData] = useState(item.placeData || null);
+
   const {
     files,
     previewUrl,
@@ -38,6 +44,66 @@ const EditItem = ({ item }) => {
     isDragActive,
     removeFile,
   } = useDropUploader(item.fileUrl); // Pass existing image/video URL
+
+    // Fetch coordinates
+  const getCoordinates = async (address) => {
+    try {
+      const res = await fetch(`/api/geocode?address=${encodeURIComponent(address)}`);
+      const data = await res.json();
+        if (!data.ok) return { lat: null, lon: null };
+      return data;
+    } catch (err) {
+      console.error("Error fetching coords:", err);
+      return { lat: null, lon: null };
+    }
+  };
+
+  // Lazy fetch coords + buildPlaceData if missing or outdated
+  useEffect(() => {
+    const updatePlaceData = async () => {
+      let coords = {
+        lat: placeData?.lat || null,
+        lon: placeData?.lon || null,
+      };
+
+      // Only fetch coords if missing and we have an address
+      if ((!coords.lat || !coords.lon )  && formData.address) {
+        coords = await getCoordinates(formData.address);
+      }
+
+      const newPlaceData = await buildPlaceData({
+        title: formData.title,
+        address: formData.address,
+        phoneNumber: formData.phoneNumber,
+        addressLink: formData.addressLink,
+        phoneLink: formData.phoneLink,
+        category: formData.category,
+        lat: coords.lat,
+        lon: coords.lon,
+      });
+
+      setPlaceData(newPlaceData);
+    };
+
+    if (
+      !placeData ||
+      !placeData.lat ||
+      !placeData.lon ||
+      formData.title !== item.title ||
+      formData.address !== item.address ||
+      formData.category !== item.category
+    ) {
+      updatePlaceData();
+    }
+  }, [
+    formData.title,
+    formData.address,
+    formData.phoneNumber,
+    formData.addressLink,
+    formData.phoneLink,
+    formData.category,
+  ]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,7 +117,7 @@ const EditItem = ({ item }) => {
       alert("Please wait for the files to upload");
       return;
     };
-    const { title, content, category, section, address, addressLink } =
+    const { title, content, category, section, address, addressLink, phoneNumber, phoneLink } =
       formData;
     try {
       const updatedItem = {
@@ -60,9 +126,13 @@ const EditItem = ({ item }) => {
         category,
         section,
         creator,
+        address,
+        addressLink,
+        phoneNumber,
         fileUrl: fileInfo?.fileUrl || item.fileUrl,
         imageUrl: fileInfo?.fileUrl || item.imageUrl,
         mediaType: fileInfo?.mediaType || item.mediaType,
+        placeData
       };
       const res = await fetch(`/api/items/${item._id}`, {
         method: "PUT",
@@ -80,24 +150,6 @@ const EditItem = ({ item }) => {
     } finally {
       setLoading(false);
     }
-    // const res = await fetch(`/api/items/${item._id}`, {
-    //   method: "PUT",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     ...formData,
-    //     creator,
-    //     fileUrl: fileInfo?.fileUrl || item.fileUrl, // fallback to original
-    //     mediaType: fileInfo?.mediaType || item.mediaType,
-    //   }),
-    // });
-    //   if (res.ok) {
-    //       const updated = await res.json();
-    //       console.log("✅ Updated item:: ", updated);
-    //       alert("Post updated successfully!");
-    //       router.push("/my-posts");
-    //   } else {
-    //       console.error("❌ Failed to update item.");
-    // }
   };
 
   return (

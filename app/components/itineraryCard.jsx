@@ -38,7 +38,8 @@ export default function ItineraryCard({ itinerary }) {
       {/* <h3 className="text-base xs:text-sm sm:text-base font-bold text-white truncate max-w-full overflow-hidden whitespace-nowrap">
         {title}
       </h3> */}
-      <p className="text-base text-white text-xs sm:text-lg font-bold truncate">{title}</p>
+      <p className="text-xs sm:text-lg font-bold text-white line-clamp-2">
+      {title}</p>
 
       <p className="text-white/70 text-xs truncate">{city}</p>
 

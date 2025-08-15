@@ -12,6 +12,26 @@ const HighlightSchema = new mongoose.Schema({
   tip: { type: String, default: "" }, //optional
 });
 
+// Schema for placeData (same structure as your buildPlaceData output)
+const PlaceDataSchema = new mongoose.Schema({
+  name: String,
+  address: String,
+  phone: String,
+  links: {
+    website: String,
+    phone: String,
+  },
+  category: String,
+  content: String,
+  duration: String,
+  type: String,
+  description: String,
+  highlights: mongoose.Schema.Types.Mixed, // Can store array or object
+  lat: Number,
+  lon: Number,
+}, { _id: false }); // prevent creating an _id for this subdoc
+
+
 const ItinerarySchema = new mongoose.Schema({
   title: { type: String, required: true },
   slug: { type: String, required: true, unique: true },
@@ -36,6 +56,8 @@ const ItinerarySchema = new mongoose.Schema({
   mediaType: { type: String, enum: ["image", "video"], default: "image" },
   createdAt: { type: Date, default: Date.now },
   highlights: [HighlightSchema], // New field for storing highlights as an array of objects
+  placeData: { type: PlaceDataSchema, default: {} },
+
 });
 
 // Ensure slug is always lowercase and URL-safe

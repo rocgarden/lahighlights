@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 import { useDropUploader } from "@/hooks/useDropUploader";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { buildPlaceData } from "@/lib/placeData";
 
 const NewItem = () => {
   const router = useRouter();
+
   const { data: session, status } = useSession({
     required: true,
     onUnauthenticated() {
@@ -34,33 +35,92 @@ const NewItem = () => {
     phoneNumber: "",
     addressLink: "",
     phoneLink: "",
-    placeData: "",
     section: "", // <-- added
   });
 
+  const [loading, setLoading] = useState(false);
+
+   const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+   };
+  
+  
+ const getCoordinates = async (address) => {
+  if (!address) return { lat: null, lon: null };
+
+  try {
+    const res = await fetch(
+      `/api/geocode?address=${encodeURIComponent(address)}`,
+      { method: "GET" }
+    );
+
+    if (!res.ok) {
+      console.warn("Geocode API returned error:", await res.text());
+      return { lat: null, lon: null };
+    }
+
+    const { lat, lon } = await res.json();
+    return { lat, lon };
+  } catch (err) {
+    console.error("Error fetching coords:", err);
+    return { lat: null, lon: null };
+  }
+};
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const creator = session?.user?.email;
+    setLoading(true);
 
     try {
+    const creator = session?.user?.email;
+
+      // Fetch coordinates from Google Maps API
+    //const { lat, lon } = await getCoordinates(formData.address);
+
+      // ✅ Build placeData object automatically
+    // const placeData = {
+    //   name: formData.title || "",
+    //   address: formData.address || "",
+    //   phone: formData.phoneNumber || "",
+    //   links: {
+    //     website: formData.addressLink || "",
+    //     phone: formData.phoneLink || "",
+    //   },
+    //   category: formData.category || "",
+    //   content: formData.content || "",
+    //   lat,
+    //   lon,
+      // };
+      const placeData = await buildPlaceData(formData);
+
+      
       const res = await fetch("/api/items", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...formData,
+          section: formData.section,
+          title: formData.title,
+          content: formData.content,
+          address: formData.address,
+          category: formData.category,
+          addressLink : formData.addressLink,
+          placeData, // ✅ send structured object
           creator,
-          imageUrl: fileInfo?.fileUrl,
-          mediaType: fileInfo?.mediaType,
-         // placeData: JSON.parse(formData.placeData || "{}"),
+          imageUrl: fileInfo?.fileUrl || "",
+          mediaType: fileInfo?.mediaType || "",
         }),
       });
+
+      if (!res.ok) throw new Error("Failed to save");
 
       const result = await res.json();
       console.log("✅ Saved to DB:", result);
       router.push("/");
-
     } catch (error) {
       console.error("❌ Error saving post:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -91,11 +151,10 @@ const NewItem = () => {
         </label>
         <select
           id="section"
+          name="section"
           required
           value={formData.section}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, section: e.target.value }))
-          }
+          onChange={handleChange}
           className="w-full p-2 rounded bg-white/10 border border-white/20"
         >
           <option value="">Select section</option>
@@ -111,15 +170,14 @@ const NewItem = () => {
         <label htmlFor="title" className="block mb-1 font-medium">
           Title
         </label>
-        <input
+         <input
           id="title"
+          name="title"
           type="text"
           placeholder="Name"
           required
           value={formData.title}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, title: e.target.value }))
-          }
+          onChange={handleChange}
           className="w-full p-2 rounded bg-white/10 border border-white/20"
         />
       </div>
@@ -131,12 +189,11 @@ const NewItem = () => {
         </label>
         <textarea
           id="content"
+          name="content"
           required
           rows={4}
           value={formData.content}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, content: e.target.value }))
-          }
+          onChange={handleChange}
           className="w-full p-2 rounded bg-white/10 border border-white/20"
         />
       </div>
@@ -148,11 +205,10 @@ const NewItem = () => {
         </label>
         <select
           id="category"
+          name="category"
           required
           value={formData.category}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, category: e.target.value }))
-          }
+          onChange={handleChange}
           className="w-full p-2 rounded bg-white/10 border border-white/20"
         >
           <option value="">Select a category</option>
@@ -170,11 +226,10 @@ const NewItem = () => {
         </label>
         <input
           id="address"
+          name="address"
           type="text"
           value={formData.address}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, address: e.target.value }))
-          }
+          onChange={handleChange}
           className="w-full p-2 rounded bg-white/10 border border-white/20"
         />
       </div>
@@ -186,29 +241,27 @@ const NewItem = () => {
         </label>
         <input
           id="phoneNumber"
+          name="phoneNumber"
           type="tel"
           pattern="[0-9+ -]*"
           value={formData.phoneNumber}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, phoneNumber: e.target.value }))
-          }
+          onChange={handleChange}
           className="w-full p-2 rounded bg-white/10 border border-white/20"
         />
       </div>
 
-      {/* Address Link */}
+      {/* Website */}
       <div>
         <label htmlFor="addressLink" className="block mb-1 font-medium">
           Web Address Link
         </label>
         <input
           id="addressLink"
+          name="addressLink"
           placeholder="Website Address URL"
           type="url"
           value={formData.addressLink}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, addressLink: e.target.value }))
-          }
+          onChange={handleChange}
           className="w-full p-2 rounded bg-white/10 border border-white/20"
         />
       </div>
@@ -220,18 +273,17 @@ const NewItem = () => {
         </label>
         <input
           id="phoneLink"
+          name="phoneLink"
           type="url"
           value={formData.phoneLink}
           placeholder="optional"
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, phoneLink: e.target.value }))
-          }
+          onChange={handleChange}
           className="w-full p-2 rounded bg-white/10 border border-white/20"
         />
       </div>
 
       {/* Place Data (JSON) */}
-      <div>
+      {/* <div>
         <label htmlFor="placeData" className="block mb-1 font-medium">
           Place Data (JSON)- Safely Ignore this area
         </label>
@@ -244,7 +296,7 @@ const NewItem = () => {
           }
           className="w-full p-2 rounded bg-white/10 border border-white/20"
         />
-      </div>
+      </div> */}
 
       {/* File Upload */}
       <div
@@ -286,9 +338,10 @@ const NewItem = () => {
 
       <button
         type="submit"
+        disabled={loading}
         className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded"
       >
-        Submit Post
+        {loading ? "Saving..." : "Save Post"}
       </button>
     </form>
   );

@@ -5,7 +5,7 @@ import { useDropUploader } from "@/hooks/useDropUploader";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { activityOptions, timeOfDayOptions, getMaxDays, autoFillTimeOfDay } from "@/lib/utils/itinerariesHelpers";
-
+import { buildPlaceData } from "@/lib/placeData";
 
 export default function EditItinerary({ itinerary }) {
   const [isSaving, setIsSaving] = useState(false);
@@ -26,6 +26,8 @@ export default function EditItinerary({ itinerary }) {
     highlights: (itinerary.highlights || []).map(h => ({ ...h, tip: h.tip || "" }))
   });
 
+  const [placeData, setPlaceData] = useState(itinerary.placeData || null);
+
   const {
     previewUrl,
     fileInfo,
@@ -34,6 +36,28 @@ export default function EditItinerary({ itinerary }) {
     getInputProps,
     removeFile,
   } = useDropUploader(itinerary.fileUrl);
+
+    // Automatically generate/update placeData if missing or stale
+  useEffect(() => {
+    const updatePlaceData = async () => {
+      const newPlaceData = await buildPlaceData({
+        title: formData.title,
+        city: formData.city,
+        type: formData.type,
+        description: formData.description,
+        duration: formData.duration,
+        highlights: formData.highlights,
+      });
+      setPlaceData(newPlaceData);
+    };
+
+    if (!placeData || formData.title !== itinerary.title || formData.city !== itinerary.city || formData.type !== itinerary.type ||     formData.description !== itinerary.description ||
+      JSON.stringify(formData.highlights) !== JSON.stringify(itinerary.highlights)
+    ) {
+      updatePlaceData();
+    }
+    }, [formData.title, formData.city, formData.type, formData.description, formData.highlights]);
+
 
     const handleHighlightChange = (index, field, value) => {
     const newHighlights = [...formData.highlights];
@@ -81,6 +105,7 @@ export default function EditItinerary({ itinerary }) {
         creator: session?.user?.email,
         fileUrl: fileInfo?.fileUrl || itinerary.fileUrl,
         mediaType: fileInfo?.mediaType || itinerary.mediaType,
+        placeData
       }),
     });
 

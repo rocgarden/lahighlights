@@ -131,6 +131,7 @@ export async function updateItinerary(id, data) {
   fileUrl: data.fileUrl,
   mediaType: data.mediaType,
   highlights: data.highlights,
+  placeData: data.placeData
 };
 
   return await Itinerary.findByIdAndUpdate(id, updateFields, { new: true });
