@@ -6,6 +6,13 @@ import Featured from "./components/Featured";
 import Link from "next/link";
 import Head from "next/head";
 import { getAllItems } from "@/services/itemService";
+import CoffeeIcon from "./components/icons/CoffeeIcon";
+import CameraIcon from "./components/icons/CameraIcon";
+import TheaterIcon from "./components/icons/TheaterIcon";
+import SurfIcon from "./components/icons/SurfIcon";
+import MoviesIcon from "./components/icons/MoviesIcon";
+import { BackgroundIcons } from "./components/BackgroundIcons";
+import { BackgroundScatterIcons } from "./components/BackgroundScatterIcons";
 export const metadata = {
   title:
     "⭐ Los Angeles: Explore Top Travel Picks and Hidden Gems | Norah Bird",
@@ -125,27 +132,28 @@ export default async function Home() {
 
       {/* Main Content Section */}
       <main className="row-start-2">
-        <section className="w-full px-6 pt-10 text-center ">
-          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-950">
-            <Link
-              href="/itineraries"
-              className="text-indigo-800 underline font-semibold"
-            >
-              ✨ Explore Curated LA Itineraries
-            </Link>{" "}
-          </h2>
-          <p className="lg:block hidden mt-2 text-lg text-gray-600">
-            From food crawls to mural missions — plan your next LA moment.
-          </p>
-          {/* <p className="mt-3">
-            <Link
-              href="/itineraries"
-              className="text-indigo-800 underline font-semibold"
-            >
-              ✨ Explore Curated LA Itineraries
-            </Link>
-          </p> */}
-        </section>
+     <section className="relative w-full px-6 py-16 text-center bg-red-200 overflow-hidden">
+     <BackgroundScatterIcons/>
+  {/* Header + tagline */}
+  <h2 className="text-2xl sm:text-3xl font-bold text-indigo-950 relative z-10">
+    <Link
+      href="/itineraries"
+      className="text-indigo-800 font-semibold"
+    >
+      ✨ Explore Curated LA Itineraries
+    </Link>
+  </h2>
+  <p className="lg:block hidden mt-2 text-lg text-gray-600 relative z-10">
+    From food crawls to mural missions — plan your next LA moment.
+  </p>
+  {/* Floating background icons */}
+  {/* <CoffeeIcon className="absolute top-4 left-8 w-8 h-8 text-orange-300/30 animate-[sway_6s_ease-in-out_infinite]" />
+  <TheaterIcon className="absolute top-12 right-12 w-10 h-10 text-red-300/30 animate-[wiggle_5s_ease-in-out_infinite]" />
+  <CameraIcon className="absolute bottom-6 left-1/4 w-8 h-8 text-gray-400/30 animate-[sway_8s_ease-in-out_infinite]" />
+  <SurfIcon className="absolute bottom-10 right-1/8 w-12 h-12 text-blue-300/30 animate-[wiggle_7s_ease-in-out_infinite]" />
+  <MoviesIcon className="absolute top-1/2 left-20 w-9 h-9 text-indigo-300/20 animate-[sway_10s_ease-in-out_infinite]" /> */}
+</section>
+
 
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 xl:px-24 py-12 flex flex-col gap-16 items-center sm:items-start">
           <div className="flex gap-4 items-center flex-col sm:flex-row">

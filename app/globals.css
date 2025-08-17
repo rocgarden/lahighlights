@@ -64,6 +64,8 @@ body {
 @theme {
   --animate-wiggle: wiggle 1s ease-in-out infinite;
   --animate-gradientMove: gradientMove 5s ease-in-out infinite;
+  --animate-sway: sway 6s ease-in-out infinite;
+  --animate-drift: drift 12s ease-in-out infinite;
   @keyframes wiggle {
     0%,
     100% {
@@ -86,4 +88,30 @@ body {
         background-position: 0% 100%;
       }
     }
+
+      @keyframes sway {
+  
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+  
+        50% {
+          transform: translateY(-8px) rotate(-2deg);
+        }
+      }
+
+      @keyframes drift {
+        0% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+
+        50% {
+          transform: translate(var(--tx, 20px), var(--ty, -20px)) rotate(15deg);
+        }
+
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+      }
 }

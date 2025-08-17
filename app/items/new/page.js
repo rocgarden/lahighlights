@@ -216,6 +216,9 @@ const NewItem = () => {
           <option value="places">📍 Places</option>
           <option value="events">🎉 Events</option>
           <option value="parks">🌳 Parks</option>
+          <option value="eats">🍽️ Eats </option>
+          <option value="museums">🖼️ Museums</option>
+
         </select>
       </div>
 

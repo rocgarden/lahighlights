@@ -18,7 +18,7 @@ const categories = [
   },
   {
     label: "🎨 Museums",
-    slug: "default",
+    slug: "museums",
     className: "bg-green-100 text-green-800 hover:bg-green-200",
   },
   {
@@ -28,6 +28,11 @@ const categories = [
   },
   {
     label: "🍜 Eats",
+    slug: "eats",
+    className: "bg-orange-100 text-rose-800 hover:bg-rose-200",
+  },
+    {
+    label: "🍜 Places",
     slug: "places",
     className: "bg-rose-100 text-rose-800 hover:bg-rose-200",
   },

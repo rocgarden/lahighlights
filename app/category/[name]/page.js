@@ -43,8 +43,13 @@ export default async function CategoryPage({ params }) {
 
   if (!posts || posts.length === 0) {
     return (
-      <div className="px-6 py-12 text-white">
-        <h1 className="text-3xl font-bold">No posts found in {category}</h1>
+      <div className="mt-25">
+      <Breadcrumb
+        items={[
+          { label: "Home", href: "/" },
+        ]}
+        />
+        <h1 className="m-20 text-3xl font-bold">No posts yet. Please check back later.</h1>
       </div>
     );
   }
