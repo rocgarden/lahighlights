@@ -216,6 +216,8 @@ const EditItem = ({ item }) => {
           <option value="places">📍 Places</option>
           <option value="events">🎉 Events</option>
           <option value="parks">🌳 Parks</option>
+          <option value="eats">🍽️ Eats </option>
+          <option value="museums">🖼️ Museums</option>
         </select>
         <h3 className="font-bold text-lg py-2">Edit Address</h3>
         <textarea

@@ -135,7 +135,7 @@ export default async function Home() {
      <section className="relative w-full px-6 py-16 text-center bg-red-200 overflow-hidden">
      <BackgroundScatterIcons/>
   {/* Header + tagline */}
-  <h2 className="text-2xl sm:text-3xl font-bold text-indigo-950 relative z-10">
+  <h2 className="text-2xl sm:text-3xl font-bold hover:underline text-indigo-950 relative z-10">
     <Link
       href="/itineraries"
       className="text-indigo-800 font-semibold"
@@ -156,7 +156,7 @@ export default async function Home() {
 
 
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 xl:px-24 py-12 flex flex-col gap-16 items-center sm:items-start">
-          <div className="flex gap-4 items-center flex-col sm:flex-row">
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 py-12 flex flex-col gap-16 items-center sm:items-start">
             <HomeFeed topCategories={sortedTop5} />
             {/* Add more components here if needed */}
           </div>

@@ -28,7 +28,7 @@ export async function generateMetadata({ params }) {
 
   return {
     title: `${capitalized} | Category | Norah Bird`,
-    description: `Explore all posts in the ${capitalized} category.`,
+    description: `Explore more ${capitalized} in Los Angeles.`,
      alternates: {
       canonical: `https://norahbird.com/category/${name}`,
     },
@@ -38,7 +38,10 @@ export async function generateMetadata({ params }) {
 export const revalidate = 86400;
 
 export default async function CategoryPage({ params }) {
-  const category =  params?.name;
+  const category = params?.name;
+  const capitalizedCategory =
+    category.charAt(0).toUpperCase() + category.slice(1);
+
   const posts = await getItemsByCategory(category);
 
   if (!posts || posts.length === 0) {
@@ -62,11 +65,11 @@ export default async function CategoryPage({ params }) {
         <Breadcrumb
           items={[
             { label: "Home", href: "/" },
-            { label: category }, // no href for the current page
+            { label: capitalizedCategory }, // no href for the current page
           ]}
         />
         <h1 className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent text-4xl mb-5 font-bold">
-          Top {category}
+          Top {capitalizedCategory}
         </h1>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
           {posts.map((post) => (

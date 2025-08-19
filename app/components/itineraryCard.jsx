@@ -9,6 +9,15 @@ const typeBadges = {
   general: "🌍 General",
 };
 
+// Utility function to format activity names
+function formatActivity(str) {
+  if (!str) return "";
+  return str
+    .replace(/([a-z])([A-Z])/g, "$1 $2") // split camelCase
+    .replace(/_/g, " ") // handle snake_case if needed
+    .replace(/\b\w/g, (char) => char.toUpperCase()); // capitalize each word
+}
+
 export default function ItineraryCard({ itinerary }) {
   const { _id, title, city, description, duration, type, fileUrl, mediaType, highlights,slug } =
     itinerary;
@@ -67,7 +76,7 @@ export default function ItineraryCard({ itinerary }) {
           </p>
 
           {highlights.slice(0, 3).map((item, idx) => (
-            <li key={idx}>• {item?.activity}</li>
+            <li key={idx}>• {formatActivity(item?.activity)}</li>
           ))}
           {highlights.length > 3 && <li>• ...</li>}
         </ul>

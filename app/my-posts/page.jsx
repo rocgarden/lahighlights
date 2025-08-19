@@ -88,6 +88,9 @@ const MyPosts = () => {
                     <p className="text-md text-indigo-900 font-bold">
                       Section: {item.section}
                     </p>
+                     <p className="text-md text-indigo-900 font-bold">
+                      Category: {item.category}
+                    </p>
                     <p className="text-sm">
                       <strong>Description:</strong>{item.content}
                     </p>
