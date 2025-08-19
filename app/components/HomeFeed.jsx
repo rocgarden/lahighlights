@@ -96,12 +96,15 @@ export default function HomeFeed({ topCategories }) {
           </Link>
 
           {/* ✅ Fix horizontal scroll cut-off */}
-          <div className="flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:justify-center md:justify-start">
-            {posts.map((post) => (
-              <div
-                key={post._id}
-                className="w-full sm:w-[280px] md:w-[300px] lg:w-[320px] flex-shrink-0"
-              >
+          {/* ✅ Show only 3 on mobile, 5 on desktop */}
+<div className="flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:justify-center md:justify-start">
+  {posts.slice(0, 5).map((post, i) => (
+    <div
+      key={post._id}
+      className={`w-full sm:w-[280px] md:w-[300px] lg:w-[320px] flex-shrink-0 ${
+        i >= 3 ? "hidden sm:block" : "" // only 3 on mobile, 5 on desktop
+      }`}
+    >
                 <PostCard post={post} />
               </div>
             ))}
