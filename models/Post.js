@@ -25,6 +25,10 @@ const Post = new mongoose.Schema(
       enum: ["hero", "feed", "about", "featured"],
       default: "feed",
     },
+    photoCredit: {
+    type: String,
+    default: "Norah Bird Travel", // fallback if none provided
+    },
     //TODO create reference to User
     //creator: { type: mongoose.Types.ObjectId, ref: "User" },
   },

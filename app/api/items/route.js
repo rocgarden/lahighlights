@@ -31,6 +31,7 @@ export async function GET(req) {
         section: item.section,
         mediaType: item.mediaType,
         creator: item.creator,
+        photoCredit: item.photoCredit,
       }));
 
      return Response.json(publicItems);

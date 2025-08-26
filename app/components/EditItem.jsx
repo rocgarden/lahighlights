@@ -30,6 +30,7 @@ const EditItem = ({ item }) => {
     addressLink: item.addressLink,
     phoneNumber: item.phoneNumber || "",
     phoneLink: item.phoneLink || "",
+    photoCredit: item.photoCredit || ""
   });
   
   const [placeData, setPlaceData] = useState(item.placeData || null);
@@ -117,7 +118,7 @@ const EditItem = ({ item }) => {
       alert("Please wait for the files to upload");
       return;
     };
-    const { title, content, category, section, address, addressLink, phoneNumber, phoneLink } =
+    const { title, content, category, section, address, addressLink, phoneNumber, phoneLink , photoCredit} =
       formData;
     try {
       const updatedItem = {
@@ -132,7 +133,8 @@ const EditItem = ({ item }) => {
         fileUrl: fileInfo?.fileUrl || item.fileUrl,
         imageUrl: fileInfo?.fileUrl || item.imageUrl,
         mediaType: fileInfo?.mediaType || item.mediaType,
-        placeData
+        placeData,
+        photoCredit,
       };
       const res = await fetch(`/api/items/${item._id}`, {
         method: "PUT",
@@ -270,6 +272,22 @@ const EditItem = ({ item }) => {
             </button>
           </div>
         )}
+
+         <div className="mb-4">
+        <label className="block text-sm p-3 font-medium">Photo Credit (optional)</label>
+        <input
+          id="photoCredit"
+          type="text"
+          name="photoCredit"
+          value={formData.photoCredit || ""}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, photoCredit: e.target.value }))
+          }
+          className="w-full p-2 rounded border bg-white/10 text-white"
+          placeholder="e.g. Unsplash / John Doe"
+        />
+      </div>
+
         {errorStatus && <p className="text-red-500">{errorStatus}</p>}
         <button
           type="submit"

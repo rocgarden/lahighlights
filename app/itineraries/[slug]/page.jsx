@@ -104,7 +104,7 @@ export default async function ItineraryDetailPage(props) {
             🕒 {new Date(createdAt).toLocaleDateString()}
           </span>
         </div>  */}
-        <div className="hidden lg:block">
+        {/* <div className="hidden lg:block">
         <h1 className=" text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
           Itinerary: {title}
         </h1>{" "}
@@ -120,7 +120,25 @@ export default async function ItineraryDetailPage(props) {
             🕒 {new Date(createdAt).toLocaleDateString()}
           </span>
         </div>
-        </div>
+        </div> */}
+           {/* Title + meta ABOVE image for md+ */}
+<div className="hidden md:block">
+  <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
+    Itinerary: {title}
+  </h1>
+  <p className="text-base sm:text-lg text-white/80 mb-4">📍 {city}</p>
+  <div className="flex flex-wrap gap-3 mb-6 text-sm">
+    <span className="bg-blue-600/80 px-3 py-1 rounded-full">
+      ⏳ {duration}
+    </span>
+    <span className="bg-green-600/80 px-3 py-1 rounded-full capitalize">
+      {getItineraryTypeIcon(type)} {type}
+    </span>
+    <span className="text-white/60 ml-auto">
+      🕒 {new Date(createdAt).toLocaleDateString()}
+    </span>
+  </div>
+</div>
 {fileUrl && mediaType !== "video" && (
   <div className="-mx-4 sm:-mx-6 mb-6">
     <div className="relative h-[250px] sm:h-[300px] md:h-[400px] overflow-hidden">
@@ -138,12 +156,26 @@ export default async function ItineraryDetailPage(props) {
             {description}
           </article>
       </div>
-      
+
+
+{/* Title + meta OVERLAY on mobile only */}
+<div className="md:hidden absolute bottom-4 left-4 sm:left-6 text-white z-10">
+  <h1 className="text-2xl sm:text-3xl font-bold mb-2 drop-shadow">
+    {title}
+  </h1>
+  <div className="flex flex-wrap items-center gap-2 text-sm">
+    <span className="bg-blue-600/80 px-3 py-1 rounded-full">
+      ⏳ {duration}
+    </span>
+    <span className="bg-green-600/80 px-3 py-1 rounded-full capitalize">
+      {getItineraryTypeIcon(type)} {type}
+    </span>
+    <span className="text-white/80">📍 {city}</span>
+  </div>
+</div>
+
       {/* Title and tags over image */}
-      <div className=" lg:hidden absolute bottom-4 left-4 sm:left-6 text-white z-10 ">
-         {/* <article className=" text-white/90 leading-relaxed sm:mb-4 mb-2 text-base sm:text-lg  whitespace-pre-wrap">
-          {description}
-        </article> */}
+      {/* <div className=" lg:hidden absolute bottom-4 left-4 sm:left-6 text-white z-10 ">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 drop-shadow">
           {title}
         </h1>
@@ -157,7 +189,7 @@ export default async function ItineraryDetailPage(props) {
           <span className="text-white/80">📍 {city}</span>
          
         </div>
-      </div>
+      </div> */}
     </div>
   </div>
 )}

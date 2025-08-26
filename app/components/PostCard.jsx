@@ -2,9 +2,7 @@
 
 import Image from "next/image";
 import { useState } from 'react';
-
-// import { MapPin, Globe } from "lucide-react";
-
+import CameraSolo from "./icons/CameraSolo";
 
 export default function PostCard({ post, showDescription = false }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -35,7 +33,7 @@ export default function PostCard({ post, showDescription = false }) {
           priority={post.isAboveTheFold} // use only if above-the-fold
         />
       )}
-
+       
       {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-100 transition" />
 
@@ -87,12 +85,21 @@ export default function PostCard({ post, showDescription = false }) {
           </div>
         </div>
       </div>
+     
       {/* Optional Description for category pages */}
       {showDescription && post.content && (
         <div className="p-4 text-black text-sm text-justify border-t border-white/30">
- <p className={`${isExpanded ? '' : 'line-clamp-2'} transition-all duration-300`}>
-      {post.content}
-    </p>
+          {/* Photo credit */}
+          { post.photoCredit && (
+           <div className="flex items-center justify-end gap-1.5 text-xs text-black/40 text-right">
+               <CameraSolo className="w-4 h-4 shrink-0 translate-y-[1px]" aria-hidden />
+              <span className="leading-none text-xs">{post.photoCredit || ""}</span>
+          </div>
+          )}
+      
+          <p className={`${isExpanded ? '' : 'line-clamp-2'} transition-all duration-300`}>
+              {post.content}
+         </p>
          {post.content.length > 100 && (
           <button
         onClick={() => setIsExpanded(!isExpanded)}

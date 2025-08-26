@@ -17,7 +17,7 @@ export const metadata = {
   title:
     "⭐ Los Angeles: Explore Top Travel Picks and Hidden Gems | Norah Bird",
   description:
-    "Discover handpicked featured destinations with detailed insights and local highlights. Explore our curated travel itineraries today!",
+    "Discover handpicked featured destinations with detailed insights and local highlights. Explore our curated travel itineraries today or just things to do!",
   keywords: [
     "featured travel",
     "curated itineraries",
@@ -25,11 +25,12 @@ export const metadata = {
     "Norah Bird",
     "travel recommendations",
     "community travel picks",
+    "things to do",
   ],
   openGraph: {
     title: "NorahBird | Los Angeles Highlights",
     description:
-      "Explore creative posts from our community, organized by category.",
+      "Explore creative posts from our community with plenty of things to do, organized by category.",
     url: "https://norahbird.com",
     siteName: "Norah Bird",
     images: [
@@ -45,7 +46,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Norah Bird | Los Angeles Highlights",
-    description: "Explore creative posts from our community.",
+    description: "Explore creative posts for things to do from our community.",
     creator: "Norah Bird",
     site: "NorahBird",
     images: ["/NorahLogoGroup.svg"],
@@ -86,7 +87,6 @@ export default async function Home() {
   const feedItems = items.filter((item) => item.section === "feed");
   const heroItems = items.filter((item) => item.section === "hero");
   const featuredItem = items.filter((item) => item.section === "featured");
-  console.log("feedItems:: ", feedItems);
   const grouped = groupByCategory(feedItems);
   const sortedTop5 = Object.entries(grouped)
     .sort((a, b) => b[1].length - a[1].length)
@@ -156,7 +156,7 @@ export default async function Home() {
 
 
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 xl:px-24 py-12 flex flex-col gap-16 items-center sm:items-start">
-<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 py-12 flex flex-col gap-16 items-center sm:items-start">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 py-12 flex flex-col gap-16 items-center sm:items-start">
             <HomeFeed topCategories={sortedTop5} />
             {/* Add more components here if needed */}
           </div>

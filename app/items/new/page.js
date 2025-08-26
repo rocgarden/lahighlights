@@ -36,9 +36,15 @@ const NewItem = () => {
     addressLink: "",
     phoneLink: "",
     section: "", // <-- added
+    photoCredit:"",
   });
 
   const [loading, setLoading] = useState(false);
+  const [aiQuery, setAiQuery] = useState(""); // 👈 new query field
+  const [loadingAI, setLoadingAI] = useState(false);
+  const [error, setError] = useState(null);
+  const [suggestion, setSuggestion] = useState(null);
+
 
    const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,7 +72,47 @@ const NewItem = () => {
     console.error("Error fetching coords:", err);
     return { lat: null, lon: null };
   }
-};
+ };
+  
+
+    // 👇 AI Suggest handler
+  const handleAISuggest = async () => {
+    if (!aiQuery.trim()) return; // require query
+      setError(null);
+      setSuggestion(null);
+    try {
+      setLoadingAI(true);
+
+      const res = await fetch("/api/ai-suggest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: aiQuery,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch AI suggestion");
+
+    const { success, data, error } = await res.json();
+    if (!success) {
+      throw new Error(error || "Failed to fetch AI suggestion");
+      };
+       // Show the suggestion in preview mode, not in the form yet
+      setSuggestion(data);
+
+      // Merge suggestion into formData
+      // setFormData((prev) => ({
+      //   ...prev,
+      //   ...data,
+      // }));
+    } catch (err) {
+      console.error("AI suggestion failed:", err);
+      setError(err.message);
+    } finally {
+      setLoadingAI(false);
+    }
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -104,7 +150,8 @@ const NewItem = () => {
           content: formData.content,
           address: formData.address,
           category: formData.category,
-          addressLink : formData.addressLink,
+          addressLink: formData.addressLink,
+          photoCredit: formData.photoCredit,
           placeData, // ✅ send structured object
           creator,
           imageUrl: fileInfo?.fileUrl || "",
@@ -144,6 +191,59 @@ const NewItem = () => {
           </li>
         </ul>
       </details>
+        <div className="flex gap-2">
+            <span className="text-3xl">✨</span>
+        <input
+          type="text"
+          value={aiQuery}
+          onChange={(e) => setAiQuery(e.target.value)}
+          placeholder="Ask for a suggestion (e.g. brunch spot)"
+          className="border p-2 rounded"
+        />
+        <button
+          onClick={handleAISuggest}
+          disabled={loadingAI}
+          className="px-3 py-2 bg-blue-600 text-white rounded"
+        >
+          {loadingAI ? "Generating..." : "💡 Suggest with AI"}
+        </button>
+      </div>
+
+        {error && (
+          <p className="text-red-600 mt-2">Error: {error}</p>
+        )}
+
+        {suggestion && (
+          <div className="mt-4 border rounded p-3 bg-gray-50 text-black/70">
+            <h3 className="font-bold">{suggestion.title}</h3>
+            <p>{suggestion.content}</p>
+            <p><strong>Category:</strong> {suggestion.category}</p>
+            <p><strong>Address:</strong> {suggestion.address}</p>
+            <p><strong>Section:</strong> {suggestion.section}</p>
+            <p><a href={suggestion.addressLink} target="_blank">Website</a></p>
+            <p><strong>Phone:</strong> {suggestion.phoneNumber}</p>
+
+            <div className="flex gap-2 mt-3">
+              <button
+                onClick={() => {
+                  setFormData(prev => ({ ...prev, ...suggestion }));
+                  setSuggestion(null);
+                  setAiQuery(""); // clear input
+                }}
+                className="px-3 py-2 bg-green-600 text-white rounded"
+              >
+                ✅ Use This
+              </button>
+              <button
+                onClick={() => setSuggestion(null)}
+                className="px-3 py-2 bg-gray-400 text-white rounded"
+              >
+                ❌ Dismiss
+              </button>
+            </div>
+          </div>
+        )}
+
       {/* Section Dropdown */}
       <div>
         <label htmlFor="section" className="block mb-1 font-medium">
@@ -336,6 +436,20 @@ const NewItem = () => {
           </button>
         </div>
       )}
+
+      <div className="mb-4">
+        <label className="block text-sm font-medium">Photo Credit (optional)</label>
+        <input
+          id="photoCredit"
+          type="text"
+          name="photoCredit"
+          value={formData.photoCredit || ""}
+          onChange={handleChange}
+          className="w-full p-2 rounded bg-white/10 border border-white/20"
+          placeholder="e.g. Unsplash / John Doe"
+        />
+      </div>
+
 
       {errorStatus && <p className="text-red-400 text-sm">{errorStatus}</p>}
 

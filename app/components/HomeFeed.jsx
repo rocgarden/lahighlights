@@ -97,18 +97,23 @@ export default function HomeFeed({ topCategories }) {
 
           {/* ✅ Fix horizontal scroll cut-off */}
           {/* ✅ Show only 3 on mobile, 5 on desktop */}
-<div className="flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:justify-center md:justify-start">
-  {posts.slice(0, 5).map((post, i) => (
-    <div
-      key={post._id}
-      className={`w-full sm:w-[280px] md:w-[300px] lg:w-[320px] flex-shrink-0 ${
-        i >= 3 ? "hidden sm:block" : "" // only 3 on mobile, 5 on desktop
-      }`}
-    >
+          <div className="flex flex-col gap-6 sm:flex-row sm:flex-wrap sm:justify-center md:justify-start">
+            {posts.slice(0, 5).map((post, i) => (
+              <div
+                key={post._id}
+                className={`w-full sm:w-[280px] md:w-[300px] lg:w-[320px] flex-shrink-0 ${
+                  i >= 3 ? "hidden sm:block" : "" // only 3 on mobile, 5 on desktop
+                }`}
+              >
                 <PostCard post={post} />
               </div>
             ))}
           </div>
+            <Link
+            href={`/category/${category.toLowerCase().replace(/[^a-z]/gi, "")}`}
+          >
+          <span className="text-sm text-black/30 leading-snug pt-6"> See more {category.toLowerCase().replace(/[^a-z]/gi, "")}</span>
+          </Link>
         </div>
       </FadeInSection>
     );
